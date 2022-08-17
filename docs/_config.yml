@@ -2,5 +2,5 @@ theme: jekyll-theme-cayman
 show_downloads: true
 
 github:
-  zip_url: http://example.com/download.zip
-  another_url: http://example.com/download.zip
+  zip_url: https://play.google.com/store/apps/details?id=devesh.app.ocr
+  tar_url: http://example.com/download.tar
