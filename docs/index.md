@@ -1,3 +1,8 @@
+---
+title: Text Master
+description: Optical character recognition for Android
+---
+
 ![Text Master Icon](https://deveshrx.github.io/Text-Master-OCR/pics/Play-Store-GraphicsSS-1.png)
 
 # Text Master
