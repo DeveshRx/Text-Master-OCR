@@ -1,0 +1,20 @@
+[
+  {
+    "name": "SMS Drive",
+    "desc": "Backup solution to sync your SMS messages across devices",
+    "url": "http",
+    "icon": "https://ik.imagekit.io/mkg3bafgvs3/Android_Apps/App_Icons/smsdrive_ic_launcher-web.png"
+  },
+  {
+    "name": "Indra | Private Video Chat",
+    "desc": "High Quality one-on-one Private Conversations with your Friends & Family.",
+    "url": "https://play.google.com/store/apps/details?id=devesh.ephrine.indra",
+    "icon": "https://ik.imagekit.io/mkg3bafgvs3/Android_Apps/App_Icons/indra_ic_launcher-playstore.png"
+  },
+  {
+    "name": "Pharma Hub for Students",
+    "desc": "EdTech Platform for Pharmacy & Medical Study",
+    "url": "https://play.google.com/store/apps/details?id=devesh.ephrine.indra",
+    "icon": "https://ik.imagekit.io/mkg3bafgvs3/Android_Apps/App_Icons/indra_ic_launcher-playstore.png"
+  }
+]

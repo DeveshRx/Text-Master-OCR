@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="devesh.app.ocr">
+
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--<uses-permission android:name="android.permission.RECORD_AUDIO" />-->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.OCR"
+        tools:targetApi="31">
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false"
+            android:label="History"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="Settings"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ResultActivity"
+
+            android:exported="false" />
+        <activity
+            android:name=".OCRReadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.OCR.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Theme.OCR"
+            /> <!-- optional (needed if default theme has no action bar) -->
+        <!--android:theme="@style/Base.Theme.AppCompat"-->
+
+
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/AdMob_App_Id" />
+
+        <meta-data
+            android:name="google_analytics_automatic_screen_reporting_enabled"
+            android:value="@bool/FirebaseAnalytics_Enabled" />
+
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="@bool/FirebaseAnalytics_Enabled" />
+
+        <meta-data
+            android:name="firebase_analytics_collection_deactivated"
+            android:value="@bool/FirebaseAnalytics_Deactivated" />
+
+        <meta-data
+            android:name="google_analytics_adid_collection_enabled"
+            android:value="@bool/FirebaseAnalytics_Enabled" />
+
+        <meta-data
+            android:name="google_analytics_ssaid_collection_enabled"
+            android:value="@bool/FirebaseAnalytics_Enabled" />
+    </application>
+
+</manifest>

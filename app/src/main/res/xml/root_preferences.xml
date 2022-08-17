@@ -1,0 +1,98 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        app:icon="@mipmap/ic_launcher_round"
+        app:summary="Made with &#10084; in India"
+        app:title="@string/app_name" />
+
+<PreferenceCategory app:title="About">
+    <Preference
+        app:key="ratekey"
+        app:title="Rate App 5 Stars" />
+
+    <Preference
+        app:key="sharekey"
+        app:title="Share with Friends" />
+    <Preference
+        app:summary="@string/app_version_name"
+        app:title="Version" />
+
+    <Preference
+        app:summary="@string/app_version_code"
+        app:title="Build Number" />
+
+</PreferenceCategory>
+
+   <!-- <Preference
+        app:key="guide"
+        app:summary="Tutorial &amp; User Guide"
+        app:title="How to Use ?" />
+-->
+
+    <PreferenceCategory android:title="Ephrine Apps Metaverse">
+        <Preference
+            app:key="smsdrive"
+            app:title="@string/MoreApps_SMS_Drive"
+            app:summary="@string/MoreApps_SMS_Drive_desc"
+            app:icon="@drawable/smsdrive_ic_launcher_web" />
+
+        <Preference
+            app:key="indra"
+            app:title="@string/MoreApps_Indra"
+            app:summary="@string/MoreApps_Indra_desc"
+            app:icon="@drawable/indra_ic_launcher_playstore"
+             />
+
+        <Preference
+            app:key="pharmahub"
+            app:title="@string/MoreApps_PharmaHub"
+            app:summary="@string/MoreApps_PharmaHub_desc"
+            app:icon="@drawable/pharmahub_ic_launcher_playstore"
+            />
+
+        <Preference
+            app:key="jinx"
+            app:title="@string/MoreApps_Jinx"
+            app:summary="@string/MoreApps_Jinx_desc"
+            app:icon="@drawable/jinx_icon"
+            />
+
+        <Preference
+            app:key="muzilla"
+            app:title="@string/MoreApps_Muzilla"
+            app:summary="@string/MoreApps_Muzilla_desc"
+            app:icon="@drawable/muzilla_ic_launcher_playstore"
+            />
+        <Preference
+            app:key="qrlite"
+            app:title="@string/MoreApps_QRLite"
+            app:summary="@string/MoreApps_QRLite_desc"
+            app:icon="@drawable/qrlite_ic_launcher_web"
+            />
+
+        <Preference
+            app:key="sht"
+            app:title="@string/MoreApps_SHT"
+            app:summary="@string/MoreApps_SHT_desc"
+            app:icon="@drawable/sht_ic_launcher"
+            />
+
+
+         <Preference
+            app:key="vlsd"
+            app:title="@string/MoreApps_VirtualLSD"
+            app:summary="@string/MoreApps_VirtualLSD_desc"
+            app:icon="@drawable/virtuallsd_ic_launcher_playstore"
+            />
+
+    </PreferenceCategory>
+
+<PreferenceCategory
+    android:title="More"
+    >
+    <Preference
+        app:key="secpri"
+        app:title="Privacy Policy" />
+
+</PreferenceCategory>
+</PreferenceScreen>

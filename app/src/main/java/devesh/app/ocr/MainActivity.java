@@ -1,0 +1,412 @@
+package devesh.app.ocr;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.media.Image;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.ImageProxy;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.ui.AppBarConfiguration;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.theartofdev.edmodo.cropper.CropImage;
+
+import java.io.File;
+import java.io.IOException;
+
+import devesh.app.database.DatabaseTool;
+import devesh.app.mlkit_ocr.OCRTool;
+import devesh.app.ocr.databinding.ActivityMainBinding;
+
+public class MainActivity extends BaseActivity {
+
+    String TAG = "APP: ";
+    FragmentManager fragmentManager;
+    Fragment fragmentScreen;
+    Fragment oldFrag;
+    OCRTool ocrTool;
+    DatabaseTool databaseTool;
+    private AppBarConfiguration appBarConfiguration;
+    private ActivityMainBinding binding;
+    ActivityResultLauncher<Intent> openGalleryApp = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    //Bundle extras = result.getData().getExtras();
+                    Log.d(TAG, "onActivityResult: " + result);
+                    //Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    //   imageView1.setImageBitmap(imageBitmap);
+                    //     Bundle extras = result.getData().getExtras();
+                    //Bundle extras = result.getData().getExtras();
+                    if (result.getData() != null) {
+                        Intent i = result.getData();
+                        Uri uri = i.getData();
+                        Log.d(TAG, "onActivityResult: " + i.getData());
+                        Bitmap bitmap = null;
+                        ShowLoader(false);
+
+                        CropImage.activity(uri)
+                                .setAutoZoomEnabled(true)
+                                .setMultiTouchEnabled(true)
+                                .start(MainActivity.this);
+
+                       /* try {
+                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                            AnalyzeImage(bitmap);
+                   *//*     Intent act2 = new Intent(MainActivity.this, EditScreenActivity.class);
+                        act2.putExtra("uri", uri);
+                        act2.putExtra("source", "gallery");
+
+                        startActivity(act2);
+*//*
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            ShowLoader(false);
+
+                        }*/
+                    }else{
+                        ShowLoader(false);
+
+                    }
+
+
+
+/*
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+
+                    }
+
+                    if (result.getResultCode() == REQUEST_IMAGE_CAPTURE && result.getResultCode() == RESULT_OK) {
+                        Bundle extras = result.getData().getExtras();
+                        Bitmap imageBitmap = (Bitmap) extras.get("data");
+                        // imageView.setImageBitmap(imageBitmap);
+                    }
+                    */
+                }
+            });
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        fragmentManager = getSupportFragmentManager();
+        ocrTool = new OCRTool(OCRTool.LANGUAGE_Devanagari);
+        databaseTool = new DatabaseTool(this);
+
+        //  setSupportActionBar(binding.toolbar);
+
+/*
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+*/
+
+     /*   binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });*/
+
+        RequestPermission();
+
+        Log.d(TAG, "onCreate:Database");
+        Log.d(TAG, databaseTool.getAll().toString());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void OpenSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    public void OpenHistory() {
+        Intent intent = new Intent(this, HistoryActivity.class);
+        startActivity(intent);
+    }
+
+    /*  public void openResult(String text){
+          Log.d(TAG, "openResult: ");
+          Bundle b= new Bundle();
+          b.putString("text",text);
+  *//*        fragmentScreen =new ResultFragment();
+        fragmentScreen.setArguments(b);
+        fragmentManager.beginTransaction()
+                //  .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(binding.fragmentContainerFrame.getId(), fragmentScreen, "result")
+                //.setReorderingAllowed(true)
+               // .addToBackStack("app")
+                .commit();*//*
+     *//*
+binding.ResultView.getRoot().setVisibility(View.VISIBLE);
+binding.ResultView.editTextScanResult.setText(text);
+*//*
+    }
+*/
+    public void ShowLoader(boolean show) {
+        runOnUiThread(() -> {
+
+            if (show) {
+                binding.LoadingView.getRoot().setVisibility(View.VISIBLE);
+            } else {
+                binding.LoadingView.getRoot().setVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void OpenResult() {
+        File file = new File(getFilesDir(), "img_cache.png");
+        ShowLoader(false);
+
+        CropImage.activity(Uri.fromFile(file))
+                .setAutoZoomEnabled(true)
+                .setMultiTouchEnabled(true)
+                .start(this);
+
+
+
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                //File file=new File(resultUri.toString());
+             //   Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
+                    ShowLoader(true);
+                    AnalyzeImage(bitmap);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    ShowLoader(false);
+
+                }
+
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                ShowLoader(false);
+
+            }
+        }else{
+            ShowLoader(false);
+
+        }
+    }
+    public void openGallery() {
+
+
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+
+        // pass the constant to compare it
+        // with the returned requestCode
+        openGalleryApp.launch(Intent.createChooser(i, "Select Picture"));
+
+
+    }
+
+    public void openChooseLanguageDialogue(int i) {
+        ocrTool = new OCRTool(i);
+
+    }
+
+    void AnalyzeImage(Bitmap bitmap) {
+        InputImage image = InputImage.fromBitmap(bitmap, 0);
+/*
+        InputImage image=null;
+        try {
+
+             image = InputImage.fromFilePath(this, Uri.fromFile(file));
+
+        }catch (Exception e){
+            Log.e(TAG, "OpenResult: ",e );
+        }*/
+        ocrTool.ProcessImage(image, new OnSuccessListener<Text>() {
+            @Override
+            public void onSuccess(Text visionText) {
+                // Task completed successfully
+
+                Log.d(TAG, "onSuccess: OCR:\n" + visionText.getText());
+                ShowLoader(false);
+                Intent resultActivity = new Intent(MainActivity.this, ResultActivity.class);
+                resultActivity.putExtra("text", visionText.getText());
+                resultActivity.putExtra("ad2db", "yes");
+                startActivity(resultActivity);
+                /*
+                Bundle b= new Bundle();
+                b.putString("text",visionText.getText());*/
+                //   setFragment(new ResultFragment(),b,"result");
+
+                String resultText = visionText.getText();
+                for (Text.TextBlock block : visionText.getTextBlocks()) {
+                    String blockText = block.getText();
+                    Point[] blockCornerPoints = block.getCornerPoints();
+                    Rect blockFrame = block.getBoundingBox();
+                    Log.d(TAG, blockText);
+                    for (Text.Line line : block.getLines()) {
+                        String lineText = line.getText();
+                        Point[] lineCornerPoints = line.getCornerPoints();
+                        Rect lineFrame = line.getBoundingBox();
+                        Log.d(TAG, lineText);
+                        for (Text.Element element : line.getElements()) {
+                            String elementText = element.getText();
+                            Point[] elementCornerPoints = element.getCornerPoints();
+                            Rect elementFrame = element.getBoundingBox();
+                            Log.d(TAG, elementText);
+                        }
+                    }
+                }
+
+            }
+        }, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Task failed with an exception
+
+                Log.e(TAG, "onFailure: OCR: ", e);
+
+
+            }
+        });
+
+    }
+
+
+    void setFragment(Fragment fragment, Bundle bundle, String tag) {
+        if (fragmentScreen != null) {
+            oldFrag = fragmentScreen;
+        }
+
+        fragmentScreen = fragment;
+        if (bundle != null) {
+
+            fragmentScreen.setArguments(bundle);
+
+        }
+
+        if (oldFrag != null) {
+
+            fragmentManager.beginTransaction()
+                    .hide(oldFrag)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(binding.fragmentContainerFrame.getId(), fragmentScreen, tag)
+                    .setReorderingAllowed(true)
+                    .addToBackStack("app")
+                    .commit();
+
+        } else {
+
+            fragmentManager.beginTransaction()
+                    //  .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(binding.fragmentContainerFrame.getId(), fragmentScreen, tag)
+                    .setReorderingAllowed(true)
+                    .addToBackStack("app")
+                    .commit();
+
+        }
+
+
+        /*
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .addToBackStack("home")
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(mBinding.fragmentContainerFrame.getId(), fragment, null)
+                .commit();*/
+    }
+
+
+    void analyzeIMG(ImageProxy imageProxy) {
+        @SuppressLint("UnsafeOptInUsageError")
+        Image mediaImage = imageProxy.getImage();
+        if (mediaImage != null) {
+            InputImage image =
+                    InputImage.fromMediaImage(mediaImage, imageProxy.getImageInfo().getRotationDegrees());
+            // Pass image to an ML Kit Vision API
+
+            ocrTool.ProcessImage(image, new OnSuccessListener<Text>() {
+                @Override
+                public void onSuccess(Text visionText) {
+                    // Task completed successfully
+
+                    Log.d(TAG, "onSuccess: OCR:\n" + visionText.getText());
+                    imageProxy.close();
+                }
+            }, new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Task failed with an exception
+
+                    Log.e(TAG, "onFailure: OCR: ", e);
+                    imageProxy.close();
+
+                }
+            });
+
+
+        }
+    }
+
+
+    /*@Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+                || super.onSupportNavigateUp();
+    }*/
+}

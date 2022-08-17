@@ -1,0 +1,56 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdk project.CompileSDK
+
+    defaultConfig {
+        minSdk 21
+        targetSdk project.CompileSDK
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        internal {
+         //   initWith debug
+            initWith release
+
+            versionNameSuffix 'internal'
+        }
+
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation "androidx.appcompat:appcompat:$project.appcompat_version"
+    implementation "com.google.android.material:material:$project.material_version"
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+
+  
+    api "androidx.room:room-runtime:$project.room_version"
+    annotationProcessor "androidx.room:room-compiler:$project.room_version"
+    // optional - RxJava2 support for Room
+    api "androidx.room:room-rxjava2:$project.room_version"
+    // optional - RxJava3 support for Room
+    api "androidx.room:room-rxjava3:$project.room_version"
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    api "androidx.room:room-guava:$project.room_version"
+    // optional - Test helpers
+    api "androidx.room:room-testing:$project.room_version"
+
+}

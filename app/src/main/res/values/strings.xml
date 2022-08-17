@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Text Master OCR</string>
+    <string name="PLAY_STORE_URL">https://play.google.com/store/apps/details?id=devesh.app.ocr</string>
+    <string name="GALAXY_STORE_URL">https://galaxystore.samsung.com/detail/devesh.app.ocr</string>
+</resources>

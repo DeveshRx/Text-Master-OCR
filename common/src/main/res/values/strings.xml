@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="SUBJECT_PHARMA_ANALYTICS">Pharmaceutical Analysis</string>
+    <string name="SUBJECT_PHARMA_CHEM">Pharmaceutical Chemistry</string>
+    <string name="SUBJECT_PHARMA_COLOGY">Pharmacology</string>
+    <string name="SUBJECT_PHARMA_CLINICAL_PHARMA">Clinical Pharmacy</string>
+    <string name="SUBJECT_PHARMA_CEUTICS">Pharmaceutics</string>
+    <string name="SUBJECT_PHARMA_BIO">Biopharmaceutics</string>
+    <string name="SUBJECT_PHARMA_COGNOCY">Pharmacognosy</string>
+    <string name="SUBJECT_PHARMA_JURISP">Pharma Jurisprudence</string>
+
+    <string name="DATABASE_SUBJECT_NOTES_FILES_LIST">database_subject_files</string>
+    <string name="DATABASE_App">database_app</string>
+
+    <string name="DB_SUBJECT_PHARMA_ANALYTICS">Pharmaceutical_Analysis</string>
+    <string name="DB_SUBJECT_PHARMA_CHEM">Pharmaceutical_Chemistry</string>
+    <string name="DB_SUBJECT_PHARMA_COLOGY">Pharmacology</string>
+    <string name="DB_SUBJECT_PHARMA_CLINICAL_PHARMA">Clinical_Pharmacy</string>
+    <string name="DB_SUBJECT_PHARMA_CEUTICS">Pharmaceutics</string>
+    <string name="DB_SUBJECT_PHARMA_BIO">Biopharmacy</string>
+    <string name="DB_SUBJECT_PHARMA_COGNOCY">Pharmacognosy</string>
+    <string name="DB_SUBJECT_PHARMA_JURISP">Pharmaceutical_Jurisprudence</string>
+
+    <string name="DATABASE_EBOOKS_DB">ebookslib.db</string>
+
+
+
+    <string name="PHARMAHUB_URL_Debug">https://pharmahub.vercel.app/</string>
+    <string name="PHARMAHUB_URL">https://pharmahub.ephrine.in/</string>
+
+    <string name="APPLOVIN_SDK_KEYXX">rflMzkT8hNs8HspnVNbRhv5olKc0wxA6NIC2ZU8aQmHtm1T-HWSFhVXLngWnJ_wFEl5VWmCv4UeT5zh_1JcrAD</string>
+
+
+    <string name="ebooks_disclaimer">all ebooks are free &amp; we just upload the ebooks which are free public domain &amp; copyright has expired. we do not host any files &amp; also do not take responsibility of any content displayed in this app as the application is just mirroring content from 3rd party sources from web.</string>
+
+
+    <string name="Pref_isAppReviewed">PrefisAppReviewed</string>
+
+
+</resources>
