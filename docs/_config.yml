@@ -3,5 +3,5 @@ show_downloads: true
 
 github:
   zip_url: https://play.google.com/store/apps/details?id=devesh.app.ocr
-  tar_url: http://example.com/download.tar
+  tar_url: https://github.com/DeveshRx/Text-Master-OCR/blob/master/APK/apk/release/app-release.apk?raw=true
   is_project_page: true
