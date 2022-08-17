@@ -10,11 +10,11 @@ Text Master is Optical Character Recognition powered by our Powerful Machine Lea
 it automatically recognize the characters from an image/camera and Scan Printed Text to convert it into Digital Text with 99% accuracy.
 
 ## Features:
-✅ Scan text from images by using phone's camera.
-✅ Powered by Machine Learning & AI
-✅ Supports Multiple Languages, 100+ languages supported
-✅ Highly Accurate with 99% accuracy result
-✅ Share scanned text with clipboard, friends, messengers or other app
+✅ Scan text from images by using phone's camera.<br/>
+✅ Powered by Machine Learning & AI.<br/>
+✅ Supports Multiple Languages, 100+ languages supported.<br/>
+✅ Highly Accurate with 99% accuracy result.<br/>
+✅ Share scanned text with clipboard, friends, messengers or other app.<br/>
 
 ## Download 
 [![download](https://deveshrx.github.io/Text-Master-OCR/pics/google-play-badge.png)](https://play.google.com/store/apps/details?id=devesh.app.ocr)
