@@ -16,11 +16,13 @@ local.properties
 
 app.env
 
-/APK/bundle/internal
-/APK/bundle/debug
+/APK/
 
-/APK/apk/internal
-/APK/apk/debug
+#/APK/bundle/internal
+#/APK/bundle/debug
+
+#/APK/apk/internal
+#/APK/apk/debug
 
 # Gradle files
 .gradle/
@@ -59,4 +61,4 @@ google-services.json
 Footer
 
 #include 
-!APK/apk/release/app-release.apk
+#!APK/apk/release/app-release.apk
