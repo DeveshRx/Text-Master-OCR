@@ -3,6 +3,6 @@ show_downloads: true
 
 github:
   zip_url: https://play.google.com/store/apps/details?id=devesh.app.ocr
-  tar_url: https://github.com/DeveshRx/Text-Master-OCR/blob/master/APK/apk/release/app-release.apk?raw=true
+  tar_url: https://install.appcenter.ms/orgs/ephrine-apps/apps/text-master/distribution_groups/apk
   is_project_page: true
   url: https://textmaster.ephrine.in
