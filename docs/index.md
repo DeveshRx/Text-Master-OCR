@@ -7,7 +7,7 @@ description: Optical character recognition for Android
 
 # Text Master
 
-Text Master is Optical Character Recognition powered by our Powerful Machine Learning & AI technology. 
+Text Master is Optical Character Recognition powered by Powerful Machine Learning & AI technology. 
 it automatically recognize the characters from an image/camera and Scan Printed Text to convert it into Digital Text with 99% accuracy.
 
 ## Features:
