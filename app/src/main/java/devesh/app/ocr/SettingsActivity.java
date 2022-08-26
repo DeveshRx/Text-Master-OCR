@@ -41,6 +41,9 @@ public class SettingsActivity extends AppCompatActivity {
         adMobAPI.setAdaptiveBanner(binding.AdFrameLayout, this);
     }
 
+
+
+
     public static class SettingsFragment extends PreferenceFragmentCompat {
         String TAG = "settings";
         InstallSource installSource;

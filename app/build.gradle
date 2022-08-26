@@ -7,8 +7,8 @@ plugins {
 }
 
 
-def AppVersionCode = 1
-def AppVersionName = "1.0.0"
+def AppVersionCode = 2
+def AppVersionName = "1.0.0.1"
 
 android {
     compileSdk project.CompileSDK
@@ -37,12 +37,13 @@ android {
         }
 
         resValue "string", "app_version_code", "\"" + AppVersionCode + "\""
-        resValue "string", "app_version_name", "\"" + AppVersionName + "\""
 
     }
 
     buildTypes {
         debug {
+            resValue "string", "app_version_name", "\"" + AppVersionName + "\""
+
             resValue "bool", "FirebaseAnalytics_Enabled", "false"
             resValue "bool", "FirebaseAnalytics_Deactivated", "true"
             // SPEEDUP BUILD
@@ -51,7 +52,12 @@ android {
 
         }
         internal {
-            initWith debug
+            resValue "string", "app_version_name", "\"" + AppVersionName+" Internal" + "\""
+
+            // initWith debug
+            resValue "bool", "FirebaseAnalytics_Enabled", "false"
+            resValue "bool", "FirebaseAnalytics_Deactivated", "true"
+
             versionNameSuffix ' internal'
             signingConfig signingConfigs.release
             minifyEnabled true
@@ -59,11 +65,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             firebaseAppDistribution {
-                releaseNotes="Version: $AppVersionName \nBuild no: $AppVersionCode (internal)"
+                releaseNotes="Version: $AppVersionName (internal)\nBuild no: $AppVersionCode"
                 groups="testers"
             }
         }
         release {
+            resValue "string", "app_version_name", "\"" + AppVersionName + "\""
+
             resValue "bool", "FirebaseAnalytics_Enabled", "true"
             resValue "bool", "FirebaseAnalytics_Deactivated", "false"
 
@@ -179,4 +187,10 @@ dependencies {
 
     // Image Cropper
     // implementation 'com.theartofdev.edmodo:android-image-cropper:+'
+
+    def billing_version = "5.0.0"
+    implementation "com.android.billingclient:billing:$billing_version"
+    implementation "com.google.android.gms:play-services-base:$project.play_services_base"
+
+
 }

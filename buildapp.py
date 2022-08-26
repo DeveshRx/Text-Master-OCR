@@ -25,9 +25,9 @@ else:
 print("\nStarted Build :) \n")
 #subprocess.run("gradlew assembleRelease", shell=True, check=True)
 if platform.system() == "Linux":
-    subprocess.run("./gradlew assemble bundle appDistributionUploadRelease appDistributionUploadInternal --stacktrace", shell=True, check=True)
+    subprocess.run("./gradlew assemble bundle appDistributionUploadInternal appDistributionUploadRelease --stacktrace", shell=True, check=True)
 else:
-    subprocess.run("gradlew assemble bundle appDistributionUploadRelease appDistributionUploadInternal --stacktrace", shell=True, check=True)
+    subprocess.run("gradlew assemble bundle appDistributionUploadInternal appDistributionUploadRelease  --stacktrace", shell=True, check=True)
 
 
 

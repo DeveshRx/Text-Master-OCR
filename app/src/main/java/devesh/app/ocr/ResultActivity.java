@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import devesh.app.common.AdMobAPI;
 import devesh.app.common.utils.AppReviewTask;
+import devesh.app.common.utils.CachePref;
 import devesh.app.database.DatabaseTool;
 import devesh.app.database.ScanFile;
 import devesh.app.ocr.databinding.ActivityResultBinding;
@@ -23,18 +24,20 @@ public class ResultActivity extends AppCompatActivity {
     boolean isAdShowed;
     AppReviewTask appReviewTask;
     String text;
-
+CachePref cachePref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityResultBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         adMobAPI = new AdMobAPI(this);
+        cachePref=new CachePref(this);
         Intent intent = getIntent();
         isAdShowed = false;
 
         text = intent.getStringExtra("text");
-
+boolean isSingleLine=cachePref.getBoolean(getString(devesh.app.common.R.string.Pref_isMultiline));
+        Log.d(TAG, "onCreate: isSingleLine: "+isSingleLine);
         String Add2DB = "yes";
         try {
             Add2DB = intent.getStringExtra("ad2db");
@@ -49,6 +52,10 @@ public class ResultActivity extends AppCompatActivity {
             text = "No Text Found in Image !!";
         }
 
+        if(isSingleLine){
+            text = text.replaceAll("\\s+", " ");
+
+        }
         binding.ResultEditText.setText(text);
 
         if (Add2DB.equals("yes")) {
@@ -91,5 +98,6 @@ public class ResultActivity extends AppCompatActivity {
         Toast.makeText(this, "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
     }
+
 
 }

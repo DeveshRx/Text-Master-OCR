@@ -45,8 +45,17 @@ android {
 
             }
         internal {
-            initWith debug
-            versionNameSuffix 'internal'
+             resValue("string", "AdMob_App_Id", "ca-app-pub-3940256099942544~3347511713")
+            resValue "string", "AdMob_Int_Id1", "000000"
+            resValue "string", "AdMob_Banner_Id1", "0000"
+            resValue "string", "AdMob_Banner_Id2", "000"
+            resValue "string", "AdMob_RewardedAds_Id1", "0000"
+            resValue "string", "AdMob_NativeAd1", "00000"
+
+            resValue "string", "MS_AppCenter_Key", "\"" + "0000" + "\""
+
+//            initWith debug
+            versionNameSuffix ' internal'
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 

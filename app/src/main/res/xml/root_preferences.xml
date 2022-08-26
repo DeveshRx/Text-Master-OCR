@@ -4,7 +4,14 @@
         app:icon="@mipmap/ic_launcher_round"
         app:summary="Made with &#10084; in India"
         app:title="@string/app_name" />
+    <PreferenceCategory app:title="Settings">
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/Pref_isMultiline"
+            android:title="Single Line Text"
+            app:summary="After scan, convert multiline text paragraph into single line"/>
+    </PreferenceCategory>
 <PreferenceCategory app:title="About">
     <Preference
         app:key="ratekey"

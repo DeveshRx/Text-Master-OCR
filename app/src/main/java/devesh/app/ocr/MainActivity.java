@@ -34,6 +34,8 @@ import com.google.mlkit.vision.text.Text;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import devesh.app.database.DatabaseTool;
@@ -48,8 +50,9 @@ public class MainActivity extends BaseActivity {
     Fragment oldFrag;
     OCRTool ocrTool;
     DatabaseTool databaseTool;
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    AppBarConfiguration appBarConfiguration;
+    ActivityMainBinding binding;
+
     ActivityResultLauncher<Intent> openGalleryApp = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -119,7 +122,7 @@ public class MainActivity extends BaseActivity {
         fragmentManager = getSupportFragmentManager();
         ocrTool = new OCRTool(OCRTool.LANGUAGE_Devanagari);
         databaseTool = new DatabaseTool(this);
-
+        ReceiveShareIntent();
         //  setSupportActionBar(binding.toolbar);
 
 /*
@@ -136,10 +139,40 @@ public class MainActivity extends BaseActivity {
             }
         });*/
 
+
+
         RequestPermission();
 
         Log.d(TAG, "onCreate:Database");
         Log.d(TAG, databaseTool.getAll().toString());
+    }
+
+    void ReceiveShareIntent(){
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+             if (type.startsWith("image/")) {
+
+
+                 Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                 if (imageUri != null) {
+                     // Update UI to reflect image being shared
+                  //   ShowLoader(true);
+
+                     CropImage.activity(imageUri)
+                             .setAutoZoomEnabled(true)
+                             .setMultiTouchEnabled(true)
+                             .start(MainActivity.this);
+
+                 }
+
+            }
+        }else {
+            // Handle other intents, such as being started from the home screen
+        }
+
     }
 
     @Override
@@ -213,6 +246,7 @@ binding.ResultView.editTextScanResult.setText(text);
 
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -246,6 +280,7 @@ binding.ResultView.editTextScanResult.setText(text);
 
         }
     }
+
     public void openGallery() {
 
 
@@ -317,6 +352,7 @@ binding.ResultView.editTextScanResult.setText(text);
             @Override
             public void onFailure(@NonNull Exception e) {
                 // Task failed with an exception
+                ShowLoader(false);
 
                 Log.e(TAG, "onFailure: OCR: ", e);
 

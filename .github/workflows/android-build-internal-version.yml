@@ -1,0 +1,89 @@
+name: Android Internal Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Internal_App_Version_Build:
+    runs-on: ubuntu-latest
+    env:
+      KEYSIGNPASSWORD: ${{ secrets.KEYSIGNPASSWORD }}
+      KEYSIGNALIAS: ${{ secrets.KEYSIGNALIAS }}
+      KEYSIGNALIASPASSWORD: ${{ secrets.KEYSIGNALIASPASSWORD }}
+      admob_app_id: ${{ secrets.ADMOB_APP_ID }}
+      admob_ad_int_id: ${{ secrets.ADMOB_AD_INT_ID }}
+      admob_ad_banner_id1: ${{ secrets.ADMOB_AD_BANNER_ID1 }}
+      admob_native_ad1: ${{ secrets.AD_NATIVE1 }}
+      msAppCenterKey: ${{ secrets.MS_APP_CENTER_KEY }}
+   
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up JDK 16
+        uses: actions/setup-java@v2
+        with:
+          java-version: "16"
+          distribution: "temurin"
+          cache: gradle
+          check-latest: true
+
+
+      - name: getting google-services.json (1)
+        id: GOOGLE_SERVICES_JSON_APP_FOLDER
+        uses: timheuer/base64-to-file@v1.1
+        with:
+          fileName: "google-services.json"
+          fileDir: "./app/"
+          encodedString: ${{ secrets.GOOGLE_SERVICES_JSON_APP_FOLDER }}
+
+
+      - name: getting sign keystore
+        id: SIGN_KEYSTORE
+        uses: timheuer/base64-to-file@v1.1
+        with:
+          fileName: "key.jks"
+          fileDir: "./"
+          encodedString: ${{ secrets.SIGN_KEY_BASE64 }}
+
+
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Gradle Clean
+        run: ./gradlew clean
+
+#      - name: Gradle Build
+#        run: ./gradlew build
+
+      # Internal Version
+      - name: Building Internal Version
+        run: ./gradlew assembleInternalRelease --stacktrace
+
+#      - uses: r0adkll/sign-android-release@v1
+#        name: Sign app APK
+#        id: sign_app
+#        with:
+#          releaseDirectory: app/build/outputs/apk/Internal/release/
+#          signingKeyBase64: ${{ secrets.SIGN_KEY_BASE64 }}
+#          alias: ${{ secrets.KEYSIGNALIAS }}
+#          keyStorePassword: ${{ secrets.KEYSIGNALIASPASSWORD }}
+#          keyPassword: ${{ secrets.KEYSIGNPASSWORD }}
+
+
+#      - name: upload artifact to Firebase App Distribution
+#        uses: wzieba/Firebase-Distribution-Github-Action@v1
+#        with:
+#          appId: ${{secrets.FIREBASE_INTERNAL_APP_ID}}
+#          token: ${{secrets.FIREBASE_TOKEN}}
+#          groups: main
+#          file: app/build/outputs/apk/Internal/release/app-Internal-release.apk
+
+      # Upload Build APK & Bundles
+      - uses: actions/upload-artifact@v2
+        name: Upload APK & Bundles
+        with:
+          name: Internal App Android Build APK
+          path: |
+           app/build/outputs/apk/Internal/release/app-Internal-release.apk
+
+#app-Internal-release-unsigned-signed.apk    
