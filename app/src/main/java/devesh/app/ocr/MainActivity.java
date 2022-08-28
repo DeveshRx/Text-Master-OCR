@@ -3,7 +3,6 @@ package devesh.app.ocr;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.Image;
@@ -27,6 +26,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
 
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.Purchase;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.mlkit.vision.common.InputImage;
@@ -34,12 +36,13 @@ import com.google.mlkit.vision.text.Text;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
+import devesh.app.billing.GPlayBilling;
+import devesh.app.common.utils.CachePref;
 import devesh.app.database.DatabaseTool;
 import devesh.app.mlkit_ocr.OCRTool;
+import devesh.app.ocr.camera.CameraFragment;
 import devesh.app.ocr.databinding.ActivityMainBinding;
 
 public class MainActivity extends BaseActivity {
@@ -52,7 +55,9 @@ public class MainActivity extends BaseActivity {
     DatabaseTool databaseTool;
     AppBarConfiguration appBarConfiguration;
     ActivityMainBinding binding;
-
+    GPlayBilling gPlayBilling;
+    CachePref cachePref;
+    boolean isSubscribed;
     ActivityResultLauncher<Intent> openGalleryApp = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -90,7 +95,7 @@ public class MainActivity extends BaseActivity {
                             ShowLoader(false);
 
                         }*/
-                    }else{
+                    } else {
                         ShowLoader(false);
 
                     }
@@ -116,14 +121,54 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        cachePref = new CachePref(this);
+        isSubscribed = false;
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         fragmentManager = getSupportFragmentManager();
-        ocrTool = new OCRTool(OCRTool.LANGUAGE_Devanagari);
+
         databaseTool = new DatabaseTool(this);
+        gPlayBilling = new GPlayBilling(this, (billingResult, list) -> {
+
+        });
+
+        String d=cachePref.getString("ocrlang");
+        if(d!=null){
+            int i=Integer.parseInt(d);
+            int m=OCRTool.LANGUAGE_DEFAULT;
+            switch (i) {
+                case 0:
+                    m=OCRTool.LANGUAGE_DEFAULT;
+                    break;
+                case 1:
+                    m=OCRTool.LANGUAGE_Devanagari;
+
+                    break;
+                case 2:
+                    m= OCRTool.LANGUAGE_Japanese;
+
+                    break;
+                case 3:
+                    m= OCRTool.LANGUAGE_Korean;
+
+                case 4:
+                    m= OCRTool.LANGUAGE_Chinese;
+
+                    break;
+            }
+
+            ocrTool = new OCRTool(m);
+        }else{
+            ocrTool = new OCRTool(OCRTool.LANGUAGE_DEFAULT);
+
+        }
         ReceiveShareIntent();
-        //  setSupportActionBar(binding.toolbar);
+
+        if(savedInstanceState==null){
+            setFragment(new CameraFragment(),null,"camera");
+        }
+
+         //  setSupportActionBar(binding.toolbar);
 
 /*
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -140,36 +185,88 @@ public class MainActivity extends BaseActivity {
         });*/
 
 
-
-        RequestPermission();
+       RequestPermission();
 
         Log.d(TAG, "onCreate:Database");
         Log.d(TAG, databaseTool.getAll().toString());
     }
 
-    void ReceiveShareIntent(){
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+      //  fragmentScreen.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        gPlayBilling.init(new BillingClientStateListener() {
+            @Override
+            public void onBillingServiceDisconnected() {
+
+            }
+
+            @Override
+            public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
+                gPlayBilling.fetchPayments((billingResult1, list) -> {
+                    Log.d(TAG, "onBillingSetupFinished: "+list.toString());
+                    if(list.isEmpty()){
+                        isSubscribed = false;
+                    }
+
+                    for (Purchase p : list) {
+                        int state = p.getPurchaseState();
+                        Log.d(TAG, "fetchOwnedPlans: " + p.getOrderId() + "\nState: " + p.getPurchaseState());
+                        if (state == Purchase.PurchaseState.PURCHASED) {
+                            Log.d(TAG, "fetchOwnedPlans: PURCHASED");
+                            isSubscribed = true;
+                        } else if (state == Purchase.PurchaseState.PENDING) {
+                            Log.d(TAG, "fetchOwnedPlans: PENDING");
+                            isSubscribed = true;
+
+                        } else if (state == Purchase.PurchaseState.UNSPECIFIED_STATE) {
+                            Log.d(TAG, "fetchOwnedPlans: UNSPECIFIED_STATE");
+                            isSubscribed = false;
+                        } else {
+                            isSubscribed = false;
+                            Log.d(TAG, "fetchOwnedPlans: UNSPECIFIED_STATE unknown");
+                        }
+
+                    }
+                    cachePref.setBoolean(getString(devesh.app.common.R.string.Pref_isSubscribed), isSubscribed);
+                    PremiumUserUI();
+
+                });
+            }
+        });
+
+        PremiumUserUI();
+    }
+
+    void ReceiveShareIntent() {
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
-             if (type.startsWith("image/")) {
+            if (type.startsWith("image/")) {
 
 
-                 Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                 if (imageUri != null) {
-                     // Update UI to reflect image being shared
-                  //   ShowLoader(true);
+                Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (imageUri != null) {
+                    // Update UI to reflect image being shared
+                    //   ShowLoader(true);
 
-                     CropImage.activity(imageUri)
-                             .setAutoZoomEnabled(true)
-                             .setMultiTouchEnabled(true)
-                             .start(MainActivity.this);
+                    CropImage.activity(imageUri)
+                            .setAutoZoomEnabled(true)
+                            .setMultiTouchEnabled(true)
+                            .start(MainActivity.this);
 
-                 }
+                }
 
             }
-        }else {
+        } else {
             // Handle other intents, such as being started from the home screen
         }
 
@@ -244,7 +341,6 @@ binding.ResultView.editTextScanResult.setText(text);
                 .start(this);
 
 
-
     }
 
     @Override
@@ -255,7 +351,7 @@ binding.ResultView.editTextScanResult.setText(text);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
                 //File file=new File(resultUri.toString());
-             //   Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
+                //   Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
                 Bitmap bitmap = null;
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
@@ -275,7 +371,7 @@ binding.ResultView.editTextScanResult.setText(text);
                 ShowLoader(false);
 
             }
-        }else{
+        } else {
             ShowLoader(false);
 
         }
@@ -362,6 +458,17 @@ binding.ResultView.editTextScanResult.setText(text);
 
     }
 
+    void PremiumUserUI(){
+        runOnUiThread(() -> {
+
+            isSubscribed=cachePref.getBoolean(getString(devesh.app.common.R.string.Pref_isSubscribed));
+            if(isSubscribed){
+binding.PremiumUserLL.setVisibility(View.VISIBLE);
+            }else{
+                binding.PremiumUserLL.setVisibility(View.GONE);
+            }
+        });
+    }
 
     void setFragment(Fragment fragment, Bundle bundle, String tag) {
         if (fragmentScreen != null) {
@@ -381,8 +488,8 @@ binding.ResultView.editTextScanResult.setText(text);
                     .hide(oldFrag)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(binding.fragmentContainerFrame.getId(), fragmentScreen, tag)
-                    .setReorderingAllowed(true)
-                    .addToBackStack("app")
+                   // .setReorderingAllowed(true)
+                   // .addToBackStack("app")
                     .commit();
 
         } else {
@@ -390,8 +497,8 @@ binding.ResultView.editTextScanResult.setText(text);
             fragmentManager.beginTransaction()
                     //  .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(binding.fragmentContainerFrame.getId(), fragmentScreen, tag)
-                    .setReorderingAllowed(true)
-                    .addToBackStack("app")
+                   // .setReorderingAllowed(true)
+                   // .addToBackStack("app")
                     .commit();
 
         }

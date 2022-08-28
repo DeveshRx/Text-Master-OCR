@@ -62,3 +62,7 @@ Footer
 
 #include 
 #!APK/apk/release/app-release.apk
+*.apk
+APK/apk/release/app-release.apk
+APK/apk/release/output-metadata.json
+*.aab

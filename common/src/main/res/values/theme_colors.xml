@@ -3,12 +3,12 @@
 
     <!--  <color name="primaryColor">@color/ic_launcher_background</color>
   <color name="primaryColor">#2596be</color>-->
-    <color name="primaryColor">#00aeef</color>
+  <!--  <color name="primaryColor">#00aeef</color>
     <color name="primaryLightColor">#66e0ff</color>
     <color name="primaryDarkColor">#007fbc</color>
     <color name="secondaryColor">#00bfa5</color>
     <color name="secondaryLightColor">#5df2d6</color>
     <color name="secondaryDarkColor">#008e76</color>
     <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#000000</color>-->
 </resources>

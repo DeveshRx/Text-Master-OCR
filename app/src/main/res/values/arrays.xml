@@ -1,12 +1,22 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Reply Preference -->
-    <string-array name="reply_entries">
-        <item>Reply</item>
-        <item>Reply to all</item>
+
+
+    <string-array name="ocr_language" tools:ignore="ExtraTranslation">
+        <item value="0">Default (English)</item>
+        <item value="1">Devanagari देवनागरी</item>
+        <item value="2">Japanese 日本</item>
+        <item value="3">Korean 한국인</item>
+        <item value="4">Chinese 中國人</item>
+
     </string-array>
 
-    <string-array name="reply_values">
-        <item>reply</item>
-        <item>reply_all</item>
+    <string-array name="ocr_language_values" tools:ignore="ExtraTranslation">
+        <item value="0">0</item>
+        <item value="1">1</item>
+        <item value="2">2</item>
+        <item value="3">3</item>
+        <item value="4">4</item>
     </string-array>
+
 </resources>

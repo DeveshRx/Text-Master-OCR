@@ -24,20 +24,21 @@ public class ResultActivity extends AppCompatActivity {
     boolean isAdShowed;
     AppReviewTask appReviewTask;
     String text;
-CachePref cachePref;
+    CachePref cachePref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityResultBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         adMobAPI = new AdMobAPI(this);
-        cachePref=new CachePref(this);
+        cachePref = new CachePref(this);
         Intent intent = getIntent();
         isAdShowed = false;
 
         text = intent.getStringExtra("text");
-boolean isSingleLine=cachePref.getBoolean(getString(devesh.app.common.R.string.Pref_isMultiline));
-        Log.d(TAG, "onCreate: isSingleLine: "+isSingleLine);
+        boolean isSingleLine = cachePref.getBoolean(getString(devesh.app.common.R.string.Pref_isMultiline));
+        Log.d(TAG, "onCreate: isSingleLine: " + isSingleLine);
         String Add2DB = "yes";
         try {
             Add2DB = intent.getStringExtra("ad2db");
@@ -52,7 +53,7 @@ boolean isSingleLine=cachePref.getBoolean(getString(devesh.app.common.R.string.P
             text = "No Text Found in Image !!";
         }
 
-        if(isSingleLine){
+        if (isSingleLine) {
             text = text.replaceAll("\\s+", " ");
 
         }

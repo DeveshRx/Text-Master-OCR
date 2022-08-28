@@ -7,8 +7,8 @@ plugins {
 }
 
 
-def AppVersionCode = 2
-def AppVersionName = "1.0.0.1"
+def AppVersionCode = 3
+def AppVersionName = "1.0.0.3"
 
 android {
     compileSdk project.CompileSDK
@@ -52,7 +52,7 @@ android {
 
         }
         internal {
-            resValue "string", "app_version_name", "\"" + AppVersionName+" Internal" + "\""
+            resValue "string", "app_version_name", "\"" + AppVersionName + " Internal" + "\""
 
             // initWith debug
             resValue "bool", "FirebaseAnalytics_Enabled", "false"
@@ -65,8 +65,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             firebaseAppDistribution {
-                releaseNotes="Version: $AppVersionName (internal)\nBuild no: $AppVersionCode"
-                groups="testers"
+                releaseNotes = "Version: $AppVersionName (internal)\nBuild no: $AppVersionCode"
+                groups = "testers"
             }
         }
         release {
@@ -81,8 +81,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             firebaseAppDistribution {
-                releaseNotes="PlayStore \nVersion: $AppVersionName \nBuild no: $AppVersionCode"
-                groups="testers"
+                releaseNotes = "PlayStore \nVersion: $AppVersionName \nBuild no: $AppVersionCode"
+                groups = "testers"
             }
         }
     }
@@ -114,6 +114,7 @@ dependencies {
     implementation project(path: ':user-guide')
     implementation project(path: ':MoreApps')
     implementation project(path: ':cropper')
+    implementation project(path: ':billing')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

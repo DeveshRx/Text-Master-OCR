@@ -45,6 +45,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import devesh.app.common.firebase.RemoteConfig;
+import devesh.app.common.utils.CachePref;
 
 
 public class AdMobAPI {
@@ -56,14 +57,24 @@ public class AdMobAPI {
     private InterstitialAd mInterstitialAd;
     private RewardedAd mRewardedAd;
 
+    CachePref cachePref;
+
     public AdMobAPI(Context context) {
         mContext = context;
         remoteConfig = new RemoteConfig(context);
+cachePref=new CachePref(context);
 
-        isAdsEnabled = remoteConfig.isAdsEnabled();
+      //  isAdsEnabled = remoteConfig.isAdsEnabled();
         //AppLovinSdk.getInstance(context.getString(R.string.APPLOVIN_SDK_KEY), null, context).initializeSdk();
 
       //  AppLovinPrivacySettings.setHasUserConsent(true, context);
+        boolean isSub=cachePref.getBoolean(context.getString(R.string.Pref_isSubscribed));
+if(isSub){
+    isAdsEnabled=false;
+}else{
+    isAdsEnabled=true;
+}
+
 
         if (!BuildConfig.DEBUG) {
             List<String> testDeviceIds = Arrays.asList("4DA615D3074C3B7ED74AF7BC445EB58B");
@@ -393,19 +404,30 @@ NativeAd nativeAd;
 
     public void loadNativeAd(FrameLayout frameLayout, Activity activity) {
 mActivity=activity;
-            adLoader = new AdLoader.Builder(mContext, mContext.getString(R.string.AdMob_NativeAd1))
-                    .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
-                        @Override
-                        public void onNativeAdLoaded(NativeAd NativeAd) {
-                            // Show the ad.
-                            Log.d(TAG, "onNativeAdLoaded: ");
+        boolean isSub=cachePref.getBoolean(mContext.getString(R.string.Pref_isSubscribed));
+        if(isSub){
+            isAdsEnabled=false;
+        }else{
+            isAdsEnabled=true;
+        }
+
+
+        if(isAdsEnabled) {
+
+
+    adLoader = new AdLoader.Builder(mContext, mContext.getString(R.string.AdMob_NativeAd1))
+            .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                @Override
+                public void onNativeAdLoaded(NativeAd NativeAd) {
+                    // Show the ad.
+                    Log.d(TAG, "onNativeAdLoaded: ");
                        /* if (adLoader.isLoading()) {
                             // The AdLoader is still loading ads.
                             // Expect more adLoaded or onAdFailedToLoad callbacks.
                         } else {
                             // The AdLoader has finished loading ads.
                         }*/
-                            boolean isDestroyed = false;
+                    boolean isDestroyed = false;
                         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                             isDestroyed = isDestroyed();
                         }
@@ -413,53 +435,53 @@ mActivity=activity;
                             NativeAd.destroy();
                             return;
                         }*/
-                            // You must call destroy on old ads when you are done with them,
-                            // otherwise you will have a memory leak.
-                            if (nativeAd != null) {
-                                nativeAd.destroy();
-                            }
-                            nativeAd = NativeAd;
+                    // You must call destroy on old ads when you are done with them,
+                    // otherwise you will have a memory leak.
+                    if (nativeAd != null) {
+                        nativeAd.destroy();
+                    }
+                    nativeAd = NativeAd;
 
-                            NativeAdView adView =
-                                    (NativeAdView) mActivity.getLayoutInflater()
-                                            .inflate(R.layout.nativead1, null);
-                            populateUnifiedNativeAdView(NativeAd, adView);
+                    NativeAdView adView =
+                            (NativeAdView) mActivity.getLayoutInflater()
+                                    .inflate(R.layout.nativead1, null);
+                    populateUnifiedNativeAdView(NativeAd, adView);
 
-                            nativeAd.setMuteThisAdListener(new MuteThisAdListener() {
-                                @Override
-                                public void onAdMuted() {
-                                    Toast.makeText(mActivity, "Ad muted", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            frameLayout.removeAllViews();
-                            frameLayout.addView(adView);
-                        }
-                    })
-                    .withAdListener(new AdListener() {
+                    nativeAd.setMuteThisAdListener(new MuteThisAdListener() {
                         @Override
-                        public void onAdFailedToLoad(LoadAdError adError) {
-                            // Handle the failure by logging, altering the UI, and so on.
-                            Log.e(TAG, "onAdFailedToLoad: " + adError);
+                        public void onAdMuted() {
+                            Toast.makeText(mActivity, "Ad muted", Toast.LENGTH_SHORT).show();
                         }
+                    });
+                    frameLayout.removeAllViews();
+                    frameLayout.addView(adView);
+                }
+            })
+            .withAdListener(new AdListener() {
+                @Override
+                public void onAdFailedToLoad(LoadAdError adError) {
+                    // Handle the failure by logging, altering the UI, and so on.
+                    Log.e(TAG, "onAdFailedToLoad: " + adError);
+                }
 
-                        @Override
-                        public void onAdClicked() {
-                            // Log the click event or other custom behavior.
-                        }
-                    })
-                    .withNativeAdOptions(new NativeAdOptions.Builder()
-                            // Methods in the NativeAdOptions.Builder class can be
-                            // used here to specify individual options settings.
-                            .setVideoOptions(new VideoOptions.Builder()
-                                    .setStartMuted(true)
-                                    .build())
-                            .setRequestCustomMuteThisAd(true)
+                @Override
+                public void onAdClicked() {
+                    // Log the click event or other custom behavior.
+                }
+            })
+            .withNativeAdOptions(new NativeAdOptions.Builder()
+                    // Methods in the NativeAdOptions.Builder class can be
+                    // used here to specify individual options settings.
+                    .setVideoOptions(new VideoOptions.Builder()
+                            .setStartMuted(true)
                             .build())
-                    .build();
-            adLoader.loadAd(new AdRequest.Builder().build());
+                    .setRequestCustomMuteThisAd(true)
+                    .build())
+            .build();
+    adLoader.loadAd(new AdRequest.Builder().build());
 
 
-
+}
         //adLoader.loadAds(new AdRequest.Builder().build(), 3);
     }
 
@@ -618,4 +640,10 @@ mActivity=activity;
         //TODO: Mute / hide the ad in your preferred manner.
     }
 
+    public void DestroyAds(){
+    if(nativeAd!=null){
+        nativeAd.destroy();
+    }
+
+    }
 }

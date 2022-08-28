@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,12 +30,12 @@
 
     -->
 
-    <include
+   <!-- <include
         android:id="@+id/include"
         layout="@layout/content_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+-->
     <FrameLayout
         android:id="@+id/fragmentContainerFrame"
         android:layout_width="match_parent"
@@ -49,6 +51,50 @@
 
         android:layout_centerInParent="true"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/PremiumUserLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/CardviewPremium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            app:cardCornerRadius="10dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="5dp"
+            app:contentPaddingLeft="15dp"
+            app:contentPaddingRight="15dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_diamond_40" />
+
+                <TextView
+                    android:id="@+id/ErrorTextview"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=" Premium Edition" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+
     <!--
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

@@ -6,100 +6,105 @@
         app:title="@string/app_name" />
     <PreferenceCategory app:title="Settings">
 
+        <Preference
+            android:key="buy"
+            android:title="Premium Plan"
+            app:icon="@drawable/ic_baseline_diamond_40"
+            app:summary="Get Ad-Free Experience "
+
+            />
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/Pref_isMultiline"
             android:title="Single Line Text"
-            app:summary="After scan, convert multiline text paragraph into single line"/>
+            app:summary="After scan, convert multiline text paragraph into single line" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/ocr_language"
+            android:entryValues="@array/ocr_language_values"
+            android:key="ocrlang"
+            android:title="OCR Language" />
+
     </PreferenceCategory>
-<PreferenceCategory app:title="About">
-    <Preference
-        app:key="ratekey"
-        app:title="Rate App 5 Stars" />
+    <PreferenceCategory app:title="About">
+        <Preference
+            app:key="ratekey"
+            app:title="Rate App 5 Stars" />
 
-    <Preference
-        app:key="sharekey"
-        app:title="Share with Friends" />
-    <Preference
-        app:summary="@string/app_version_name"
-        app:title="Version" />
+        <Preference
+            app:key="sharekey"
+            app:title="Share with Friends" />
+        <Preference
+            app:summary="@string/app_version_name"
+            app:title="Version" />
 
-    <Preference
-        app:summary="@string/app_version_code"
-        app:title="Build Number" />
+        <Preference
+            app:summary="@string/app_version_code"
+            app:title="Build Number" />
 
-</PreferenceCategory>
+    </PreferenceCategory>
 
-   <!-- <Preference
-        app:key="guide"
-        app:summary="Tutorial &amp; User Guide"
-        app:title="How to Use ?" />
--->
+    <!-- <Preference
+         app:key="guide"
+         app:summary="Tutorial &amp; User Guide"
+         app:title="How to Use ?" />
+ -->
 
     <PreferenceCategory android:title="Ephrine Apps Metaverse">
         <Preference
+            app:icon="@drawable/smsdrive_ic_launcher_web"
             app:key="smsdrive"
-            app:title="@string/MoreApps_SMS_Drive"
             app:summary="@string/MoreApps_SMS_Drive_desc"
-            app:icon="@drawable/smsdrive_ic_launcher_web" />
+            app:title="@string/MoreApps_SMS_Drive" />
 
         <Preference
-            app:key="indra"
-            app:title="@string/MoreApps_Indra"
-            app:summary="@string/MoreApps_Indra_desc"
             app:icon="@drawable/indra_ic_launcher_playstore"
-             />
+            app:key="indra"
+            app:summary="@string/MoreApps_Indra_desc"
+            app:title="@string/MoreApps_Indra" />
 
         <Preference
-            app:key="pharmahub"
-            app:title="@string/MoreApps_PharmaHub"
-            app:summary="@string/MoreApps_PharmaHub_desc"
             app:icon="@drawable/pharmahub_ic_launcher_playstore"
-            />
+            app:key="pharmahub"
+            app:summary="@string/MoreApps_PharmaHub_desc"
+            app:title="@string/MoreApps_PharmaHub" />
 
         <Preference
-            app:key="jinx"
-            app:title="@string/MoreApps_Jinx"
-            app:summary="@string/MoreApps_Jinx_desc"
             app:icon="@drawable/jinx_icon"
-            />
+            app:key="jinx"
+            app:summary="@string/MoreApps_Jinx_desc"
+            app:title="@string/MoreApps_Jinx" />
 
         <Preference
-            app:key="muzilla"
-            app:title="@string/MoreApps_Muzilla"
-            app:summary="@string/MoreApps_Muzilla_desc"
             app:icon="@drawable/muzilla_ic_launcher_playstore"
-            />
+            app:key="muzilla"
+            app:summary="@string/MoreApps_Muzilla_desc"
+            app:title="@string/MoreApps_Muzilla" />
         <Preference
-            app:key="qrlite"
-            app:title="@string/MoreApps_QRLite"
-            app:summary="@string/MoreApps_QRLite_desc"
             app:icon="@drawable/qrlite_ic_launcher_web"
-            />
+            app:key="qrlite"
+            app:summary="@string/MoreApps_QRLite_desc"
+            app:title="@string/MoreApps_QRLite" />
 
         <Preference
-            app:key="sht"
-            app:title="@string/MoreApps_SHT"
-            app:summary="@string/MoreApps_SHT_desc"
             app:icon="@drawable/sht_ic_launcher"
-            />
+            app:key="sht"
+            app:summary="@string/MoreApps_SHT_desc"
+            app:title="@string/MoreApps_SHT" />
 
 
-         <Preference
-            app:key="vlsd"
-            app:title="@string/MoreApps_VirtualLSD"
-            app:summary="@string/MoreApps_VirtualLSD_desc"
+        <Preference
             app:icon="@drawable/virtuallsd_ic_launcher_playstore"
-            />
+            app:key="vlsd"
+            app:summary="@string/MoreApps_VirtualLSD_desc"
+            app:title="@string/MoreApps_VirtualLSD" />
 
     </PreferenceCategory>
 
-<PreferenceCategory
-    android:title="More"
-    >
-    <Preference
-        app:key="secpri"
-        app:title="Privacy Policy" />
+    <PreferenceCategory android:title="More">
+        <Preference
+            app:key="secpri"
+            app:title="Privacy Policy" />
 
-</PreferenceCategory>
+    </PreferenceCategory>
 </PreferenceScreen>

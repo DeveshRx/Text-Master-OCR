@@ -3,6 +3,7 @@
 
      <string name="Pref_isAppReviewed">PrefisAppReviewed</string>
      <string name="Pref_isMultiline">onelinetext</string>
+     <string name="Pref_isSubscribed">issub</string>
 
 
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CameraFragment">
+    >
 
     <androidx.camera.view.PreviewView
         android:id="@+id/viewFinder"
@@ -81,7 +81,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="0"
-                android:text="Auto Detect"
+                android:text="English"
                 app:icon="@drawable/ic_baseline_translate_24" />
 
 
@@ -181,7 +181,7 @@
 
         </LinearLayout>
 
-        <FrameLayout
+         <FrameLayout
             android:id="@+id/AdFrame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

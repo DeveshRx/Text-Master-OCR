@@ -35,6 +35,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import devesh.app.common.AdMobAPI;
+import devesh.app.common.utils.CachePref;
 import devesh.app.mlkit_ocr.OCRTool;
 import devesh.app.ocr.MainActivity;
 import devesh.app.ocr.R;
@@ -44,8 +45,8 @@ import devesh.app.ocr.databinding.FragmentCameraBinding;
 public class CameraFragment extends Fragment {
     final float Overlay_Rotation_Portrate = 360;
     final float Overlay_Rotation_Landscape = 90;
-    final String[] LanguageOptionsFull = {"Auto (English)", "Devanagari देवनागरी", "Japanese 日本", "Korean 한국인", "Chinese 中國人"};
-    final String[] LanguageOptions = {"Auto Detect", "Devanagari", "Japanese", "Korean", "Chinese"};
+    final String[] LanguageOptionsFull = {"Default (English)", "Devanagari देवनागरी", "Japanese 日本", "Korean 한국인", "Chinese 中國人"};
+    final String[] LanguageOptions = {"English", "Devanagari", "Japanese", "Korean", "Chinese"};
     FragmentCameraBinding mBinding;
     String TAG = "CameraFragment";
     //    OCRTool ocrTool;
@@ -58,6 +59,9 @@ public class CameraFragment extends Fragment {
     ImageCapture imageCapture;
     ExecutorService cameraExecutor = Executors.newFixedThreadPool(2);
     Camera camera;
+    CachePref cachePref;
+    boolean isSubscribed;
+
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
 
     public CameraFragment() {
@@ -72,13 +76,24 @@ public class CameraFragment extends Fragment {
         View view = mBinding.getRoot();
         return view;
     }
-    ;
+
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        try {
+            adMobAPI.DestroyAds();
+
+        }catch (Exception e){
+
+        }
         mBinding = null;
+
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,6 +103,8 @@ public class CameraFragment extends Fragment {
             //    mParam2 = getArguments().getString(ARG_PARAM2);
         }
         isLandscape = false;
+        cachePref = new CachePref(getActivity());
+
         adMobAPI = new AdMobAPI(getActivity());
         cameraProviderFuture = ProcessCameraProvider.getInstance(getActivity());
         //   ocrTool=new OCRTool(getActivity());
@@ -104,7 +121,6 @@ public class CameraFragment extends Fragment {
             }
         }, ContextCompat.getMainExecutor(getActivity()));
 
-
     }
 
     @Override
@@ -115,7 +131,7 @@ public class CameraFragment extends Fragment {
         });
 
 
-        adMobAPI.loadNativeAd(mBinding.AdFrame, getActivity());
+
 
         mBinding.FlashButton.setOnClickListener(view -> {
             ToggleFlash();
@@ -181,6 +197,7 @@ public class CameraFragment extends Fragment {
 
                                         break;
                                 }
+                                cachePref.setString("ocrlang",String.valueOf(DefaultLanguageMode));
                                 dialogInterface.dismiss();
                             })
                             .setIcon(R.drawable.ic_baseline_translate_24)
@@ -191,9 +208,36 @@ public class CameraFragment extends Fragment {
             materialAlertDialogBuilder.show();
 
         });
-
+String d=cachePref.getString("ocrlang");
+if(d!=null){
+int i=Integer.parseInt(d);
+    DefaultLanguageMode=i;
+    mBinding.ModeLanguageButton.setText(LanguageOptions[i]);
+}
 //mBinding.imagePreview.setImageBitmap(null);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        adMobAPI.loadNativeAd(mBinding.AdFrame, getActivity());
+
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            adMobAPI.DestroyAds();
+
+            mBinding.AdFrame.removeAllViewsInLayout();
+
+        }catch (Exception e){
+
+        }
     }
 
     void ToggleFlash() {
@@ -286,7 +330,12 @@ public class CameraFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         cameraProviderFuture.cancel(true);
+        try {
+            adMobAPI.DestroyAds();
 
+        }catch (Exception e){
+
+        }
     }
 
     public void onClick() {

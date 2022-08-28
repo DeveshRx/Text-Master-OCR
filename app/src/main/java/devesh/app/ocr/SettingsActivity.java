@@ -10,11 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import devesh.app.billing.BillingActivity;
 import devesh.app.common.AdMobAPI;
+import devesh.app.common.utils.CachePref;
 import devesh.app.common.utils.InstallSource;
-import devesh.app.moreapps.MoreAppsListFragment;
 import devesh.app.ocr.databinding.SettingsActivityBinding;
-import devesh.app.user_guide.UserGuideActivity;
 
 public class SettingsActivity extends AppCompatActivity {
     SettingsActivityBinding binding;
@@ -42,16 +42,18 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-
-
     public static class SettingsFragment extends PreferenceFragmentCompat {
         String TAG = "settings";
         InstallSource installSource;
+        CachePref cachePref;
+        boolean isSubscribed;
+        final String[] LanguageOptionsFull = {"Default (English)", "Devanagari देवनागरी", "Japanese 日本", "Korean 한국인", "Chinese 中國人"};
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             installSource = new InstallSource(getActivity());
+            cachePref = new CachePref(getActivity());
 
             Preference PrefShareApp = findPreference("sharekey");
             PrefShareApp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -101,19 +103,50 @@ public class SettingsActivity extends AppCompatActivity {
 
 
             Preference SecPri = findPreference("secpri");
-SecPri.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-    public boolean onPreferenceClick(Preference preference) {
-        Log.d(TAG, "onPreferenceClick: ");
-        String url = "https://www.ephrine.in/privacy-policy";
+            SecPri.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.d(TAG, "onPreferenceClick: ");
+                    String url = "https://www.ephrine.in/privacy-policy";
 
-         Uri uri = Uri.parse(url);
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        // Verify that the intent will resolve to an activity
-        startActivity(intent);
+                    Uri uri = Uri.parse(url);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    // Verify that the intent will resolve to an activity
+                    startActivity(intent);
 
-        return true;
-    }
-});
+                    return true;
+                }
+            });
+
+            Preference BuyBTN = findPreference("buy");
+            isSubscribed = cachePref.getBoolean(getString(devesh.app.common.R.string.Pref_isSubscribed));
+            if (isSubscribed) {
+                BuyBTN.setIcon(devesh.app.common.R.drawable.ic_baseline_favorite_40);
+                BuyBTN.setSummary("Thank You for Subscribing");
+            }
+            BuyBTN.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.d(TAG, "onPreferenceClick: ");
+                    Intent intent = new Intent(getActivity(), BillingActivity.class);
+                    startActivity(intent);
+
+                    return true;
+                }
+            });
+
+            String d=cachePref.getString("ocrlang");
+            Preference OCRLanguage = findPreference("ocrlang");
+            if(d!=null){
+                int i=Integer.parseInt(d);
+                OCRLanguage.setSummary(LanguageOptionsFull[i]);
+            }else{
+                OCRLanguage.setSummary(LanguageOptionsFull[0]);
+            }
+
+            OCRLanguage.setOnPreferenceChangeListener((preference, newValue) -> {
+                int i=Integer.parseInt(newValue.toString());
+                preference.setSummary(LanguageOptionsFull[i]);
+                return true;
+            });
 
        /*     Preference PrefGuideApp = findPreference("guide");
             PrefGuideApp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -134,7 +167,9 @@ SecPri.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
         }
 
-        void MoreApps(){
+
+
+        void MoreApps() {
 
             findPreference("smsdrive")
                     .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
