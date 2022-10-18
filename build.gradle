@@ -2,7 +2,7 @@
 buildscript {
     dependencies {
         classpath 'com.google.gms:google-services:4.3.13'
-        classpath 'com.android.tools.build:gradle:3.4.3'
+        classpath 'com.android.tools.build:gradle:7.3.0'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.1'
         classpath 'com.google.firebase:perf-plugin:1.4.1'
         classpath 'com.google.firebase:firebase-appdistribution-gradle:3.0.3'
@@ -18,8 +18,8 @@ buildscript {
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.application' version '7.2.2' apply false
-    id 'com.android.library' version '7.2.2' apply false
+    id 'com.android.application' version '7.3.0' apply false
+    id 'com.android.library' version '7.3.0' apply false
 }
 
 
@@ -52,7 +52,7 @@ project.ext.set("keySignAliasPassword", keySignAliasPassword)
 project.ext.set("MSAppCenterKey", MSAppCenterKey)
 
 project.ext{
-    appcompat_version="1.4.2"
+    appcompat_version="1.5.1"
     material_version="1.6.1"
     constraintlayout_version="2.1.4"
     navigation_fragment_version="2.5.1"
@@ -64,11 +64,11 @@ project.ext{
     room_paging_version="2.5.0-alpha02"
     play_core_version="1.10.3"
     MSAppCenter_version = '4.4.5'
-    PlayServicesAds_version="21.1.0"
+    PlayServicesAds_version="21.3.0"
     // MlkitTextRecognition_version="18.0.0"
-    MlkitTextRecognition_version="16.0.0-beta4"
+    MlkitTextRecognition_version="16.0.0-beta6"
     gson_version="2.9.1"
-    glide_version="4.13.2"
+    glide_version="4.14.0"
     play_services_base="18.1.0"
 
     AdMobAppID=AdMob_App_ID

@@ -55,7 +55,6 @@ android {
             resValue "string", "MS_AppCenter_Key", "\"" + "0000" + "\""
 
 //            initWith debug
-            versionNameSuffix ' internal'
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 

@@ -51,6 +51,12 @@
  -->
 
     <PreferenceCategory android:title="Ephrine Apps Metaverse">
+     <Preference
+            app:icon="@drawable/qrlite_ic_launcher_web"
+            app:key="qrlite"
+            app:summary="@string/MoreApps_QRLite_desc"
+            app:title="@string/MoreApps_QRLite" />
+
         <Preference
             app:icon="@drawable/smsdrive_ic_launcher_web"
             app:key="smsdrive"
@@ -80,12 +86,7 @@
             app:key="muzilla"
             app:summary="@string/MoreApps_Muzilla_desc"
             app:title="@string/MoreApps_Muzilla" />
-        <Preference
-            app:icon="@drawable/qrlite_ic_launcher_web"
-            app:key="qrlite"
-            app:summary="@string/MoreApps_QRLite_desc"
-            app:title="@string/MoreApps_QRLite" />
-
+       
         <Preference
             app:icon="@drawable/sht_ic_launcher"
             app:key="sht"

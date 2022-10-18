@@ -1,0 +1,1 @@
+gradlew appDistributionUploadInternal appDistributionUploadRelease --stacktrace

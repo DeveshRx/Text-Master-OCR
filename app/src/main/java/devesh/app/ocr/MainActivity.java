@@ -38,6 +38,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.File;
 import java.io.IOException;
 
+import devesh.app.billing.BillingActivity;
 import devesh.app.billing.GPlayBilling;
 import devesh.app.common.utils.CachePref;
 import devesh.app.database.DatabaseTool;
@@ -58,6 +59,7 @@ public class MainActivity extends BaseActivity {
     GPlayBilling gPlayBilling;
     CachePref cachePref;
     boolean isSubscribed;
+    boolean isBuyProBanner;
     ActivityResultLauncher<Intent> openGalleryApp = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -126,7 +128,7 @@ public class MainActivity extends BaseActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         fragmentManager = getSupportFragmentManager();
-
+        isBuyProBanner=false;
         databaseTool = new DatabaseTool(this);
         gPlayBilling = new GPlayBilling(this, (billingResult, list) -> {
 
@@ -197,9 +199,50 @@ public class MainActivity extends BaseActivity {
       //  fragmentScreen.onDestroy();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        if (fragmentManager != null) {
+            if (fragmentManager.findFragmentByTag("camera") != null) {
+                if (fragmentManager.findFragmentByTag("camera").isVisible()) {
+                    //fragmentScreen = fragmentManager.findFragmentByTag("camera");
+
+                    if(!isSubscribed){
+                        if( !isBuyProBanner){
+                            binding.BuyProBanner.getRoot().setVisibility(View.VISIBLE);
+                            isBuyProBanner=true;
+                        }else{
+                            isBuyProBanner=false;
+                            binding.BuyProBanner.getRoot().setVisibility(View.GONE);
+                        }
+
+
+                    }else{
+                        super.onBackPressed();
+                    }
+
+
+                }
+            }
+        }
+
+
+
+    //    super.onBackPressed();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
+        binding.BuyProBanner.ExitButton.setOnClickListener(view -> {
+            MainActivity.this.finish();
+        });
+        binding.BuyProBanner.LearnMoreButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, BillingActivity.class);
+            startActivity(intent);
+        });
+        binding.BuyProBanner.getRoot().setVisibility(View.GONE);
+        isBuyProBanner=false;
 
         gPlayBilling.init(new BillingClientStateListener() {
             @Override
@@ -242,6 +285,8 @@ public class MainActivity extends BaseActivity {
         });
 
         PremiumUserUI();
+
+
     }
 
     void ReceiveShareIntent() {
@@ -464,9 +509,22 @@ binding.ResultView.editTextScanResult.setText(text);
             isSubscribed=cachePref.getBoolean(getString(devesh.app.common.R.string.Pref_isSubscribed));
             if(isSubscribed){
 binding.PremiumUserLL.setVisibility(View.VISIBLE);
+binding.JoinProLL.setVisibility(View.GONE);
+
             }else{
                 binding.PremiumUserLL.setVisibility(View.GONE);
+                binding.JoinProLL.setVisibility(View.VISIBLE);
+
+                binding.JoinProCardView.setOnClickListener(view -> {
+                    Intent intent = new Intent(this, BillingActivity.class);
+                    startActivity(intent);
+
+                });
             }
+
+
+
+
         });
     }
 

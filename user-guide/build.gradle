@@ -21,7 +21,6 @@ android {
         internal {
             initWith release
 
-            versionNameSuffix 'internal'
         }
 
     }

@@ -36,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 -->
+
     <FrameLayout
         android:id="@+id/fragmentContainerFrame"
         android:layout_width="match_parent"
@@ -56,7 +57,7 @@
         android:id="@+id/PremiumUserLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -93,6 +94,54 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/JoinProLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/JoinProCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            app:cardCornerRadius="10dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="10dp"
+            app:contentPaddingLeft="15dp"
+            app:contentPaddingRight="15dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_diamond_40" />
+
+                <TextView
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=" Join Premium Membership" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/BuyProBanner"
+        layout="@layout/join_member"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true" />
 
 
     <!--

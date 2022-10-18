@@ -21,8 +21,6 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion project.CompileSDK
-        versionCode 1
-        versionName PUBLISH_VERSION
     }
     buildTypes {
         release {
@@ -33,7 +31,6 @@ android {
             //   initWith debug
             initWith release
 
-            versionNameSuffix 'internal'
         }
 
     }
