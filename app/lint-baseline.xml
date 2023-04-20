@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 7.4.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.4.2)" variant="fatal" version="7.4.2">
+
+    <issue
+        id="NotSibling"
+        message="`@+id/viewFinder` is not a sibling in the same `RelativeLayout`"
+        errorLine1="        app:layout_constraintBottom_toBottomOf=&quot;@+id/viewFinder&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_camera.xml"
+            line="178"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotSibling"
+        message="`@+id/viewFinder` is not a sibling in the same `RelativeLayout`"
+        errorLine1="        app:layout_constraintEnd_toEndOf=&quot;@+id/viewFinder&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_camera.xml"
+            line="179"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotSibling"
+        message="`@+id/viewFinder` is not a sibling in the same `RelativeLayout`"
+        errorLine1="        app:layout_constraintStart_toStartOf=&quot;@+id/viewFinder&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_camera.xml"
+            line="180"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotSibling"
+        message="`@+id/viewFinder` is not a sibling in the same `RelativeLayout`"
+        errorLine1="        app:layout_constraintTop_toTopOf=&quot;@+id/viewFinder&quot; />"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fragment_camera.xml"
+            line="181"
+            column="9"/>
+    </issue>
+
+</issues>

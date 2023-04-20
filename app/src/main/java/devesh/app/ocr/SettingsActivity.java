@@ -44,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         String TAG = "settings";
-        InstallSource installSource;
+      //  InstallSource installSource;
         CachePref cachePref;
         boolean isSubscribed;
         final String[] LanguageOptionsFull = {"Default (English)", "Devanagari देवनागरी", "Japanese 日本", "Korean 한국인", "Chinese 中國人"};
@@ -52,7 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
-            installSource = new InstallSource(getActivity());
+//            installSource = new InstallSource(getActivity());
             cachePref = new CachePref(getActivity());
 
             Preference PrefShareApp = findPreference("sharekey");
@@ -60,9 +60,9 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     Log.d(TAG, "onPreferenceClick: ");
                     String url = "";
-                    if (installSource.getInstallSource().equals(installSource.GOOGLE_PLAY_STORE)) {
+                    if (InstallSource.getInstallSource(getActivity()).equals(InstallSource.GOOGLE_PLAY_STORE)) {
                         url = getString(R.string.PLAY_STORE_URL);
-                    } else if (installSource.getInstallSource().equals(installSource.SAMSUNG_APP_STORE)) {
+                    } else if (InstallSource.getInstallSource(getActivity()).equals(InstallSource.SAMSUNG_APP_STORE)) {
                         url = getString(R.string.GALAXY_STORE_URL);
                     } else {
                         url = getString(R.string.PLAY_STORE_URL);
@@ -85,9 +85,9 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     Log.d(TAG, "onPreferenceClick: ");
                     String url = "";
-                    if (installSource.getInstallSource().equals(installSource.GOOGLE_PLAY_STORE)) {
+                    if (InstallSource.getInstallSource(getActivity()).equals(InstallSource.GOOGLE_PLAY_STORE)) {
                         url = getString(R.string.PLAY_STORE_URL);
-                    } else if (installSource.getInstallSource().equals(installSource.SAMSUNG_APP_STORE)) {
+                    } else if (InstallSource.getInstallSource(getActivity()).equals(InstallSource.SAMSUNG_APP_STORE)) {
                         url = getString(R.string.GALAXY_STORE_URL);
                     } else {
                         url = getString(R.string.PLAY_STORE_URL);
@@ -161,9 +161,32 @@ public class SettingsActivity extends AppCompatActivity {
 */
 
 
-            /*More Apps*/
+            Preference PrefAppUpdate=findPreference("appupdate");
+            PrefAppUpdate.setOnPreferenceClickListener(preference -> {
+                String url = getString(R.string.PLAY_STORE_URL);
 
-            MoreApps();
+                if(InstallSource.isGalaxyStore(getActivity())){
+                    url=getString(R.string.GALAXY_STORE_URL);
+                }
+
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                // Verify that the intent will resolve to an activity
+                startActivity(intent);
+
+                return true;
+
+            });
+
+
+            /*More Apps*/
+if(InstallSource.isGalaxyStore(getActivity())){
+findPreference("MoreAppsCategory").setVisible(false);
+}else{
+    findPreference("MoreAppsCategory").setVisible(true);
+    MoreApps();
+}
+
 
         }
 

@@ -41,6 +41,9 @@
         <Preference
             app:summary="@string/app_version_code"
             app:title="Build Number" />
+        <Preference
+            android:key="appupdate"
+            app:title="Check for Update" />
 
     </PreferenceCategory>
 
@@ -50,7 +53,7 @@
          app:title="How to Use ?" />
  -->
 
-    <PreferenceCategory android:title="Ephrine Apps Metaverse">
+    <PreferenceCategory android:key="MoreAppsCategory" android:title="Ephrine Apps Metaverse">
      <Preference
             app:icon="@drawable/qrlite_ic_launcher_web"
             app:key="qrlite"

@@ -61,7 +61,7 @@ public class CameraFragment extends Fragment {
     Camera camera;
     CachePref cachePref;
     boolean isSubscribed;
-
+boolean isFlashAvailable;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
 
     public CameraFragment() {
@@ -103,6 +103,7 @@ public class CameraFragment extends Fragment {
             //    mParam2 = getArguments().getString(ARG_PARAM2);
         }
         isLandscape = false;
+        isFlashAvailable=true;
         cachePref = new CachePref(getActivity());
 
         adMobAPI = new AdMobAPI(getActivity());
@@ -216,13 +217,14 @@ int i=Integer.parseInt(d);
 }
 //mBinding.imagePreview.setImageBitmap(null);
 
+        setFlashButton();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        adMobAPI.loadNativeAd(mBinding.AdFrame, getActivity());
+        adMobAPI.setAdaptiveBanner(mBinding.AdFrame, getActivity());
 
 
     }
@@ -318,10 +320,13 @@ int i=Integer.parseInt(d);
             //  camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector,imageAnalysis,imageCapture, preview);
             camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageCapture, preview);
 
+            isFlashAvailable=camera.getCameraInfo().hasFlashUnit();
 
         } catch (Exception e) {
             Log.e(TAG, "bindPreview: " + e);
         }
+
+        setFlashButton();
 
 
     }
@@ -395,6 +400,13 @@ int i=Integer.parseInt(d);
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 
+    void setFlashButton(){
+        if(isFlashAvailable){
+            mBinding.FlashButton.setVisibility(View.VISIBLE);
+        }else{
+            mBinding.FlashButton.setVisibility(View.GONE);
+        }
+    }
 /*
     void analyzeIMG(ImageProxy imageProxy) {
         @SuppressLint("UnsafeOptInUsageError")
