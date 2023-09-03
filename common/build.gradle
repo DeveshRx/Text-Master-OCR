@@ -76,6 +76,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    namespace 'devesh.app.common'
 }
 
 dependencies {
@@ -106,5 +107,7 @@ dependencies {
 
     api "com.microsoft.appcenter:appcenter-analytics:$project.MSAppCenter_version"
     api "com.microsoft.appcenter:appcenter-crashes:$project.MSAppCenter_version"
+
+    api 'com.google.android.ump:user-messaging-platform:2.1.0'
 
 }

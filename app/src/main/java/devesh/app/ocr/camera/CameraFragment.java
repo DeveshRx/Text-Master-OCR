@@ -314,19 +314,20 @@ int i=Integer.parseInt(d);
 
                         .build();
 
-        preview.setSurfaceProvider(mBinding.viewFinder.getSurfaceProvider());
 
         try {
+            preview.setSurfaceProvider(mBinding.viewFinder.getSurfaceProvider());
+
             //  camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector,imageAnalysis,imageCapture, preview);
             camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageCapture, preview);
 
             isFlashAvailable=camera.getCameraInfo().hasFlashUnit();
-
+            setFlashButton();
         } catch (Exception e) {
             Log.e(TAG, "bindPreview: " + e);
         }
 
-        setFlashButton();
+
 
 
     }

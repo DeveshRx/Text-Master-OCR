@@ -38,7 +38,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-    lintOptions {
+    namespace 'com.theartofdev.edmodo.cropper'
+    lint {
         abortOnError false
     }
 }

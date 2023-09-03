@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk project.CompileSDK
 
     defaultConfig {
         minSdk 21
-        targetSdk 32
+        targetSdk project.CompileSDK
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -23,6 +23,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    namespace 'devesh.app.gplay_billing'
 }
 
 dependencies {

@@ -41,12 +41,19 @@ import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
+
+import com.google.android.ump.ConsentForm;
+import com.google.android.ump.ConsentInformation;
+import com.google.android.ump.ConsentRequestParameters;
+import com.google.android.ump.FormError;
+import com.google.android.ump.UserMessagingPlatform;
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import devesh.app.common.firebase.RemoteConfig;
 import devesh.app.common.utils.CachePref;
-
 
 public class AdMobAPI {
     Context mContext;
@@ -58,22 +65,24 @@ public class AdMobAPI {
     private RewardedAd mRewardedAd;
 
     CachePref cachePref;
+    ConsentInformation consentInformation;
+    AtomicBoolean isMobileAdsInitializeCalled;
 
-    public AdMobAPI(Context context) {
-        mContext = context;
-        remoteConfig = new RemoteConfig(context);
-cachePref=new CachePref(context);
+    public AdMobAPI(Activity activity) {
+        mContext = activity.getApplicationContext();
+        remoteConfig = new RemoteConfig(activity);
+        cachePref = new CachePref(activity);
 
-      //  isAdsEnabled = remoteConfig.isAdsEnabled();
+        //  isAdsEnabled = remoteConfig.isAdsEnabled();
         //AppLovinSdk.getInstance(context.getString(R.string.APPLOVIN_SDK_KEY), null, context).initializeSdk();
 
-      //  AppLovinPrivacySettings.setHasUserConsent(true, context);
-        boolean isSub=cachePref.getBoolean(context.getString(R.string.Pref_isSubscribed));
-if(isSub){
-    isAdsEnabled=false;
-}else{
-    isAdsEnabled=true;
-}
+        //  AppLovinPrivacySettings.setHasUserConsent(true, context);
+        boolean isSub = cachePref.getBoolean(activity.getString(R.string.Pref_isSubscribed));
+        if (isSub) {
+            isAdsEnabled = false;
+        } else {
+            isAdsEnabled = true;
+        }
 
 
         if (!BuildConfig.DEBUG) {
@@ -86,6 +95,59 @@ if(isSub){
 
             MobileAds.setRequestConfiguration(configuration);
 
+        }
+
+
+        isMobileAdsInitializeCalled = new AtomicBoolean(false);
+
+        // Set tag for under age of consent. false means users are not under age
+        // of consent.
+        ConsentRequestParameters params = new ConsentRequestParameters
+                .Builder()
+                .setTagForUnderAgeOfConsent(false)
+                .build();
+
+        consentInformation = UserMessagingPlatform.getConsentInformation(activity);
+        consentInformation.requestConsentInfoUpdate(
+                activity,
+                params,
+                (ConsentInformation.OnConsentInfoUpdateSuccessListener) () -> {
+                    // TODO: Load and show the consent form.
+                    UserMessagingPlatform.loadAndShowConsentFormIfRequired(
+                            activity,
+                            (ConsentForm.OnConsentFormDismissedListener) loadAndShowError -> {
+                                if (loadAndShowError != null) {
+                                    // Consent gathering failed.
+                                    Log.w(TAG, String.format("%s: %s",
+                                            loadAndShowError.getErrorCode(),
+                                            loadAndShowError.getMessage()));
+                                }
+
+                                // Consent has been gathered.
+                                if (consentInformation.canRequestAds()) {
+                                    initializeMobileAdsSdk();
+                                }
+                            }
+                    );
+                },
+                (ConsentInformation.OnConsentInfoUpdateFailureListener) requestConsentError -> {
+                    // Consent gathering failed.
+                    Log.w(TAG, String.format("%s: %s",
+                            requestConsentError.getErrorCode(),
+                            requestConsentError.getMessage()));
+                });
+
+
+        if (consentInformation.canRequestAds()) {
+            initializeMobileAdsSdk();
+        }
+
+
+    }
+
+    void initializeMobileAdsSdk(){
+        if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            return;
         }
 
         MobileAds.initialize(mContext, new OnInitializationCompleteListener() {
@@ -374,60 +436,61 @@ if(isSub){
 
 
         }
-       }
-public void ShowRewardedAd(){
-    if (isAdsEnabled) {
+    }
 
-        if (mRewardedAd != null) {
+    public void ShowRewardedAd() {
+        if (isAdsEnabled) {
 
-            mRewardedAd.show(mActivity, new OnUserEarnedRewardListener() {
-                @Override
-                public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-                    // Handle the reward.
-                    Log.d(TAG, "The user earned the reward.");
-                    int rewardAmount = rewardItem.getAmount();
-                    String rewardType = rewardItem.getType();
-                    Log.d(TAG, "onUserEarnedReward: rewardAmount: "+rewardAmount+"\n rewardType: "+rewardType);
-                }
-            });
-        } else {
-            Log.d(TAG, "The rewarded ad wasn't ready yet.");
+            if (mRewardedAd != null) {
+
+                mRewardedAd.show(mActivity, new OnUserEarnedRewardListener() {
+                    @Override
+                    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                        // Handle the reward.
+                        Log.d(TAG, "The user earned the reward.");
+                        int rewardAmount = rewardItem.getAmount();
+                        String rewardType = rewardItem.getType();
+                        Log.d(TAG, "onUserEarnedReward: rewardAmount: " + rewardAmount + "\n rewardType: " + rewardType);
+                    }
+                });
+            } else {
+                Log.d(TAG, "The rewarded ad wasn't ready yet.");
+            }
+
         }
-
-    }
     }
 
 
-// Native Ads
-NativeAd nativeAd;
+    // Native Ads
+    NativeAd nativeAd;
     AdLoader adLoader;
 
     public void loadNativeAd(FrameLayout frameLayout, Activity activity) {
-mActivity=activity;
-        boolean isSub=cachePref.getBoolean(mContext.getString(R.string.Pref_isSubscribed));
-        if(isSub){
-            isAdsEnabled=false;
-        }else{
-            isAdsEnabled=true;
+        mActivity = activity;
+        boolean isSub = cachePref.getBoolean(mContext.getString(R.string.Pref_isSubscribed));
+        if (isSub) {
+            isAdsEnabled = false;
+        } else {
+            isAdsEnabled = true;
         }
 
 
-        if(isAdsEnabled) {
+        if (isAdsEnabled) {
 
 
-    adLoader = new AdLoader.Builder(mContext, mContext.getString(R.string.AdMob_NativeAd1))
-            .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
-                @Override
-                public void onNativeAdLoaded(NativeAd NativeAd) {
-                    // Show the ad.
-                    Log.d(TAG, "onNativeAdLoaded: ");
+            adLoader = new AdLoader.Builder(mContext, mContext.getString(R.string.AdMob_NativeAd1))
+                    .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                        @Override
+                        public void onNativeAdLoaded(NativeAd NativeAd) {
+                            // Show the ad.
+                            Log.d(TAG, "onNativeAdLoaded: ");
                        /* if (adLoader.isLoading()) {
                             // The AdLoader is still loading ads.
                             // Expect more adLoaded or onAdFailedToLoad callbacks.
                         } else {
                             // The AdLoader has finished loading ads.
                         }*/
-                    boolean isDestroyed = false;
+                            boolean isDestroyed = false;
                         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                             isDestroyed = isDestroyed();
                         }
@@ -435,157 +498,156 @@ mActivity=activity;
                             NativeAd.destroy();
                             return;
                         }*/
-                    // You must call destroy on old ads when you are done with them,
-                    // otherwise you will have a memory leak.
-                    if (nativeAd != null) {
-                        nativeAd.destroy();
-                    }
-                    nativeAd = NativeAd;
+                            // You must call destroy on old ads when you are done with them,
+                            // otherwise you will have a memory leak.
+                            if (nativeAd != null) {
+                                nativeAd.destroy();
+                            }
+                            nativeAd = NativeAd;
 
-                    NativeAdView adView =
-                            (NativeAdView) mActivity.getLayoutInflater()
-                                    .inflate(R.layout.nativead1, null);
-                    populateUnifiedNativeAdView(NativeAd, adView);
+                            NativeAdView adView =
+                                    (NativeAdView) mActivity.getLayoutInflater()
+                                            .inflate(R.layout.nativead1, null);
+                            populateUnifiedNativeAdView(NativeAd, adView);
 
-                    nativeAd.setMuteThisAdListener(new MuteThisAdListener() {
-                        @Override
-                        public void onAdMuted() {
-                            Toast.makeText(mActivity, "Ad muted", Toast.LENGTH_SHORT).show();
+                            nativeAd.setMuteThisAdListener(new MuteThisAdListener() {
+                                @Override
+                                public void onAdMuted() {
+                                    Toast.makeText(mActivity, "Ad muted", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            frameLayout.removeAllViews();
+                            frameLayout.addView(adView);
                         }
-                    });
-                    frameLayout.removeAllViews();
-                    frameLayout.addView(adView);
-                }
-            })
-            .withAdListener(new AdListener() {
-                @Override
-                public void onAdFailedToLoad(LoadAdError adError) {
-                    // Handle the failure by logging, altering the UI, and so on.
-                    Log.e(TAG, "onAdFailedToLoad: " + adError);
-                }
+                    })
+                    .withAdListener(new AdListener() {
+                        @Override
+                        public void onAdFailedToLoad(LoadAdError adError) {
+                            // Handle the failure by logging, altering the UI, and so on.
+                            Log.e(TAG, "onAdFailedToLoad: " + adError);
+                        }
 
-                @Override
-                public void onAdClicked() {
-                    // Log the click event or other custom behavior.
-                }
-            })
-            .withNativeAdOptions(new NativeAdOptions.Builder()
-                    // Methods in the NativeAdOptions.Builder class can be
-                    // used here to specify individual options settings.
-                    .setVideoOptions(new VideoOptions.Builder()
-                            .setStartMuted(true)
+                        @Override
+                        public void onAdClicked() {
+                            // Log the click event or other custom behavior.
+                        }
+                    })
+                    .withNativeAdOptions(new NativeAdOptions.Builder()
+                            // Methods in the NativeAdOptions.Builder class can be
+                            // used here to specify individual options settings.
+                            .setVideoOptions(new VideoOptions.Builder()
+                                    .setStartMuted(true)
+                                    .build())
+                            .setRequestCustomMuteThisAd(true)
                             .build())
-                    .setRequestCustomMuteThisAd(true)
-                    .build())
-            .build();
-    adLoader.loadAd(new AdRequest.Builder().build());
+                    .build();
+            adLoader.loadAd(new AdRequest.Builder().build());
 
 
-}
+        }
         //adLoader.loadAds(new AdRequest.Builder().build(), 3);
     }
 
     private void populateUnifiedNativeAdView(NativeAd nativeAd, NativeAdView adView) {
 
-            if (nativeAd.isCustomMuteThisAdEnabled()) {
-                enableCustomMuteWithReasons(nativeAd.getMuteThisAdReasons());
+        if (nativeAd.isCustomMuteThisAdEnabled()) {
+            enableCustomMuteWithReasons(nativeAd.getMuteThisAdReasons());
+        } else {
+            hideCustomMute();
+        }
+        // Set the media view.
+        //adView.setMediaView((MediaView) adView.findViewById(R.id.ad_media));
+
+        // Set other ad assets.
+        adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
+        adView.setBodyView(adView.findViewById(R.id.ad_body));
+        adView.setCallToActionView(adView.findViewById(R.id.ad_call_to_action));
+        adView.setIconView(adView.findViewById(R.id.ad_app_icon));
+        adView.setPriceView(adView.findViewById(R.id.ad_price));
+        adView.setStarRatingView(adView.findViewById(R.id.ad_stars));
+        adView.setStoreView(adView.findViewById(R.id.ad_store));
+        adView.setAdvertiserView(adView.findViewById(R.id.ad_advertiser));
+
+        // The headline and mediaContent are guaranteed to be in every UnifiedNativeAd.
+        ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
+        // adView.getMediaView().setMediaContent(nativeAd.getMediaContent());
+
+        // These assets aren't guaranteed to be in every UnifiedNativeAd, so it's important to
+        // check before trying to display them.
+        if (nativeAd.getBody() == null) {
+            adView.getBodyView().setVisibility(View.INVISIBLE);
+        } else {
+            adView.getBodyView().setVisibility(View.VISIBLE);
+            ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
+        }
+
+        if (nativeAd.getCallToAction() == null) {
+            adView.getCallToActionView().setVisibility(View.INVISIBLE);
+        } else {
+            adView.getCallToActionView().setVisibility(View.VISIBLE);
+            ((Button) adView.getCallToActionView()).setText(nativeAd.getCallToAction());
+        }
+
+        if (nativeAd.getIcon() == null) {
+            adView.getIconView().setVisibility(View.GONE);
+        } else {
+            ((ImageView) adView.getIconView()).setImageDrawable(
+                    nativeAd.getIcon().getDrawable());
+            adView.getIconView().setVisibility(View.VISIBLE);
+        }
+
+        if (nativeAd.getPrice() == null) {
+            adView.getPriceView().setVisibility(View.INVISIBLE);
+        } else {
+            adView.getPriceView().setVisibility(View.VISIBLE);
+            ((TextView) adView.getPriceView()).setText(nativeAd.getPrice());
+        }
+
+        if (nativeAd.getStore() == null) {
+            adView.getStoreView().setVisibility(View.INVISIBLE);
+        } else {
+            adView.getStoreView().setVisibility(View.VISIBLE);
+            ((TextView) adView.getStoreView()).setText(nativeAd.getStore());
+        }
+
+        if (nativeAd.getStarRating() == null) {
+            adView.getStarRatingView().setVisibility(View.INVISIBLE);
+        } else {
+            ((RatingBar) adView.getStarRatingView())
+                    .setRating(nativeAd.getStarRating().floatValue());
+            adView.getStarRatingView().setVisibility(View.VISIBLE);
+        }
+
+        if (nativeAd.getAdvertiser() == null) {
+            adView.getAdvertiserView().setVisibility(View.INVISIBLE);
+        } else {
+            ((TextView) adView.getAdvertiserView()).setText(nativeAd.getAdvertiser());
+            adView.getAdvertiserView().setVisibility(View.VISIBLE);
+        }
+
+
+        // This method tells the Google Mobile Ads SDK that you have finished populating your
+        // native ad view with this native ad.
+        adView.setNativeAd(nativeAd);
+
+
+        MediaView mediaView = adView.findViewById(R.id.ad_media);
+
+        if (nativeAd.getMediaContent() != null) {
+            adView.setMediaView(mediaView);
+
+            mediaView.setMediaContent(nativeAd.getMediaContent());
+            if (nativeAd.getMediaContent().hasVideoContent()) {
+                Log.d(TAG, "populateUnifiedNativeAdView: nativeAd.getMediaContent().hasVideoContent() YES");
             } else {
-                hideCustomMute();
-            }
-            // Set the media view.
-            //adView.setMediaView((MediaView) adView.findViewById(R.id.ad_media));
-
-            // Set other ad assets.
-            adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
-            adView.setBodyView(adView.findViewById(R.id.ad_body));
-            adView.setCallToActionView(adView.findViewById(R.id.ad_call_to_action));
-            adView.setIconView(adView.findViewById(R.id.ad_app_icon));
-            adView.setPriceView(adView.findViewById(R.id.ad_price));
-            adView.setStarRatingView(adView.findViewById(R.id.ad_stars));
-            adView.setStoreView(adView.findViewById(R.id.ad_store));
-            adView.setAdvertiserView(adView.findViewById(R.id.ad_advertiser));
-
-            // The headline and mediaContent are guaranteed to be in every UnifiedNativeAd.
-            ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
-            // adView.getMediaView().setMediaContent(nativeAd.getMediaContent());
-
-            // These assets aren't guaranteed to be in every UnifiedNativeAd, so it's important to
-            // check before trying to display them.
-            if (nativeAd.getBody() == null) {
-                adView.getBodyView().setVisibility(View.INVISIBLE);
-            } else {
-                adView.getBodyView().setVisibility(View.VISIBLE);
-                ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
-            }
-
-            if (nativeAd.getCallToAction() == null) {
-                adView.getCallToActionView().setVisibility(View.INVISIBLE);
-            } else {
-                adView.getCallToActionView().setVisibility(View.VISIBLE);
-                ((Button) adView.getCallToActionView()).setText(nativeAd.getCallToAction());
-            }
-
-            if (nativeAd.getIcon() == null) {
-                adView.getIconView().setVisibility(View.GONE);
-            } else {
-                ((ImageView) adView.getIconView()).setImageDrawable(
-                        nativeAd.getIcon().getDrawable());
-                adView.getIconView().setVisibility(View.VISIBLE);
-            }
-
-            if (nativeAd.getPrice() == null) {
-                adView.getPriceView().setVisibility(View.INVISIBLE);
-            } else {
-                adView.getPriceView().setVisibility(View.VISIBLE);
-                ((TextView) adView.getPriceView()).setText(nativeAd.getPrice());
-            }
-
-            if (nativeAd.getStore() == null) {
-                adView.getStoreView().setVisibility(View.INVISIBLE);
-            } else {
-                adView.getStoreView().setVisibility(View.VISIBLE);
-                ((TextView) adView.getStoreView()).setText(nativeAd.getStore());
-            }
-
-            if (nativeAd.getStarRating() == null) {
-                adView.getStarRatingView().setVisibility(View.INVISIBLE);
-            } else {
-                ((RatingBar) adView.getStarRatingView())
-                        .setRating(nativeAd.getStarRating().floatValue());
-                adView.getStarRatingView().setVisibility(View.VISIBLE);
-            }
-
-            if (nativeAd.getAdvertiser() == null) {
-                adView.getAdvertiserView().setVisibility(View.INVISIBLE);
-            } else {
-                ((TextView) adView.getAdvertiserView()).setText(nativeAd.getAdvertiser());
-                adView.getAdvertiserView().setVisibility(View.VISIBLE);
-            }
-
-
-            // This method tells the Google Mobile Ads SDK that you have finished populating your
-            // native ad view with this native ad.
-            adView.setNativeAd(nativeAd);
-
-
-            MediaView mediaView = adView.findViewById(R.id.ad_media);
-
-            if (nativeAd.getMediaContent() != null) {
-                adView.setMediaView(mediaView);
-
-                mediaView.setMediaContent(nativeAd.getMediaContent());
-                if (nativeAd.getMediaContent().hasVideoContent()) {
-                    Log.d(TAG, "populateUnifiedNativeAdView: nativeAd.getMediaContent().hasVideoContent() YES");
-                } else {
-                    Log.d(TAG, "populateUnifiedNativeAdView: nativeAd.getMediaContent().hasVideoContent() NO");
-                    adView.findViewById(R.id.ad_media).setVisibility(View.GONE);
-                }
-
-                Log.d(TAG, "populateUnifiedNativeAdView: nativeAd.getMediaContent()");
-            } else {
-                Log.d(TAG, "populateUnifiedNativeAdView: nativeAd.getMediaContent() NULL");
+                Log.d(TAG, "populateUnifiedNativeAdView: nativeAd.getMediaContent().hasVideoContent() NO");
+                adView.findViewById(R.id.ad_media).setVisibility(View.GONE);
             }
 
+            Log.d(TAG, "populateUnifiedNativeAdView: nativeAd.getMediaContent()");
+        } else {
+            Log.d(TAG, "populateUnifiedNativeAdView: nativeAd.getMediaContent() NULL");
+        }
 
 
         // Get the video controller for the ad. One will always be provided, even if the ad doesn't
@@ -640,10 +702,12 @@ mActivity=activity;
         //TODO: Mute / hide the ad in your preferred manner.
     }
 
-    public void DestroyAds(){
-    if(nativeAd!=null){
-        nativeAd.destroy();
-    }
+    public void DestroyAds() {
+        if (nativeAd != null) {
+            nativeAd.destroy();
+        }
 
     }
+
+
 }

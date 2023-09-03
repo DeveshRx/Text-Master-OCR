@@ -1,11 +1,13 @@
 
 buildscript {
     dependencies {
-        classpath 'com.google.gms:google-services:4.3.13'
-        classpath 'com.android.tools.build:gradle:7.4.2'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.1'
-        classpath 'com.google.firebase:perf-plugin:1.4.1'
-        classpath 'com.google.firebase:firebase-appdistribution-gradle:3.0.3'
+        classpath 'com.google.gms:google-services:4.3.15'
+        classpath 'com.android.tools.build:gradle:8.1.1'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
+        classpath 'com.google.firebase:perf-plugin:1.4.2'
+        classpath 'com.google.firebase:firebase-appdistribution-gradle:4.0.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10"
+
     }
     repositories {
         mavenCentral()
@@ -18,9 +20,10 @@ buildscript {
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.application' version '7.4.2' apply false
-    id 'com.android.library' version '7.4.2' apply false
+    id 'com.android.application' version '8.1.1' apply false
+    id 'com.android.library' version '8.1.1' apply false
 }
+
 
 
 
@@ -53,20 +56,21 @@ project.ext.set("MSAppCenterKey", MSAppCenterKey)
 
 project.ext{
     appcompat_version="1.6.1"
-    material_version="1.8.0"
+    material_version="1.9.0"
     constraintlayout_version="2.1.4"
-    navigation_fragment_version="2.5.3"
-    navigation_ui_version="2.5.3"
-    preference_version="1.2.0"
-    firebaseBOM_version="30.3.1"
-    camerax_version = "1.2.2"
-    room_version = "2.4.3"
-    room_paging_version="2.5.0-alpha02"
+    navigation_fragment_version="2.7.1"
+    navigation_ui_version="2.7.1"
+    preference_version="1.2.1"
+    firebaseBOM_version="32.2.3"
+    camerax_version = "1.2.3"
+    room_version = "2.5.2"
+ //   room_paging_version="2.5.0-alpha02"
     play_core_version="1.10.3"
-    MSAppCenter_version = '4.4.5'
-    PlayServicesAds_version="22.0.0"
+    MSAppCenter_version = '5.0.1'
+    PlayServicesAds_version="22.3.0"
     // MlkitTextRecognition_version="18.0.0"
-    MlkitTextRecognition_version="16.0.0-beta6"
+   // MlkitTextRecognition_version="16.0.0-beta6"
+    MlkitTextRecognition_version="16.0.0"
     gson_version="2.10.1"
     glide_version="4.14.0"
     play_services_base="18.2.0"
@@ -78,7 +82,7 @@ project.ext{
     AdMobAdRewardedID=AdMob_AdRewardedID
     AdMobNativeAds=AdMob_Native_Ad_ID
 
-    CompileSDK=33
+    CompileSDK=34
 }
 
 

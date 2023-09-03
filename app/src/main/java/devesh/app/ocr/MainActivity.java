@@ -46,6 +46,17 @@ import devesh.app.mlkit_ocr.OCRTool;
 import devesh.app.ocr.camera.CameraFragment;
 import devesh.app.ocr.databinding.ActivityMainBinding;
 
+
+import com.google.android.ump.ConsentDebugSettings;
+import com.google.android.ump.ConsentForm;
+import com.google.android.ump.ConsentInformation;
+import com.google.android.ump.ConsentRequestParameters;
+import com.google.android.ump.FormError;
+import com.google.android.ump.UserMessagingPlatform;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
+
 public class MainActivity extends BaseActivity {
 
     String TAG = "APP: ";

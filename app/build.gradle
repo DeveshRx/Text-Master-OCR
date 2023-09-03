@@ -4,11 +4,13 @@ plugins {
     id 'com.google.firebase.crashlytics'
     id 'com.google.firebase.firebase-perf'
     id 'com.google.firebase.appdistribution'
+    id 'kotlin-android'
+
 }
 
 
-def AppVersionCode = 6
-def AppVersionName = "1.0.0.6"
+def AppVersionCode = 7
+def AppVersionName = "1.0.0.7"
 
 android {
     compileSdk project.CompileSDK
@@ -101,6 +103,7 @@ android {
  lint {
                         baseline = file("lint-baseline.xml")
                     }
+    namespace 'devesh.app.ocr'
 }
 
 dependencies {
@@ -173,7 +176,7 @@ dependencies {
     testImplementation "androidx.room:room-testing:$project.room_version"
 
     // optional - Paging 3 Integration
-    implementation "androidx.room:room-paging:$project.room_paging_version"
+    implementation "androidx.room:room-paging:$project.room_version"
 
 
     //Google Play Core
@@ -192,9 +195,14 @@ dependencies {
     // Image Cropper
     // implementation 'com.theartofdev.edmodo:android-image-cropper:+'
 
-    def billing_version = "5.2.0"
+  //  def billing_version = "5.2.0"
+    def billing_version = "6.0.1"
     implementation "com.android.billingclient:billing:$billing_version"
     implementation "com.google.android.gms:play-services-base:$project.play_services_base"
 
+    implementation 'com.google.android.ump:user-messaging-platform:2.1.0'
+
+// Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.10"
 
 }
