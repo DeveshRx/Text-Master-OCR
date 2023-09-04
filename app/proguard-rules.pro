@@ -31,3 +31,8 @@
 -keepclassmembers class devesh.app.ocr.** {
       *;
 }
+
+-keepclassmembers class com.android.billingclient.api.** {
+      *;
+}
+
