@@ -86,7 +86,7 @@ public class AdMobAPI {
 
 
         if (!BuildConfig.DEBUG) {
-            List<String> testDeviceIds = Arrays.asList("4DA615D3074C3B7ED74AF7BC445EB58B");
+            List<String> testDeviceIds = Arrays.asList("4DA615D3074C3B7ED74AF7BC445EB58B","BA7CE8A34143C5A04CCEF9F701FCADB5");
             RequestConfiguration configuration =
                     new RequestConfiguration.Builder()
                             .setTestDeviceIds(testDeviceIds)
@@ -161,6 +161,12 @@ public class AdMobAPI {
     }
 
     public void setAdBannerTo(AdView adView) {
+        boolean isSub = cachePref.getBoolean(mActivity.getString(R.string.Pref_isSubscribed));
+        if (isSub) {
+            isAdsEnabled = false;
+        } else {
+            isAdsEnabled = true;
+        }
         if (isAdsEnabled) {
             AdSize adSize = AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(mContext, 320);
 
@@ -210,6 +216,12 @@ public class AdMobAPI {
     }
 
     public void setAdaptiveBanner(AdView adView, Activity activity) {
+        boolean isSub = cachePref.getBoolean(activity.getString(R.string.Pref_isSubscribed));
+        if (isSub) {
+            isAdsEnabled = false;
+        } else {
+            isAdsEnabled = true;
+        }
         if (isAdsEnabled) {
             AdSize adSize = AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(mContext, 320);
 
@@ -262,6 +274,12 @@ public class AdMobAPI {
     // InterstitialAd
 
     public void setAdaptiveBanner(FrameLayout adContainerView, Activity activity) {
+        boolean isSub = cachePref.getBoolean(activity.getString(R.string.Pref_isSubscribed));
+        if (isSub) {
+            isAdsEnabled = false;
+        } else {
+            isAdsEnabled = true;
+        }
         if (isAdsEnabled) {
             AdView adView = new AdView(activity);
 
@@ -317,6 +335,13 @@ public class AdMobAPI {
 
     public void LoadInterstitialAd(Activity activity) {
         mActivity = activity;
+
+        boolean isSub = cachePref.getBoolean(mActivity.getString(R.string.Pref_isSubscribed));
+        if (isSub) {
+            isAdsEnabled = false;
+        } else {
+            isAdsEnabled = true;
+        }
         if (isAdsEnabled) {
             AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -366,6 +391,12 @@ public class AdMobAPI {
     }
 
     public void ShowInterstitialAd() {
+        boolean isSub = cachePref.getBoolean(mActivity.getString(R.string.Pref_isSubscribed));
+        if (isSub) {
+            isAdsEnabled = false;
+        } else {
+            isAdsEnabled = true;
+        }
         if (isAdsEnabled) {
             if (mInterstitialAd != null) {
                 mInterstitialAd.show(mActivity);

@@ -26,6 +26,8 @@ import com.android.billingclient.api.QueryProductDetailsParams;
 import com.android.billingclient.api.QueryPurchasesParams;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.errorprone.annotations.Immutable;
+import com.google.firebase.crashlytics.internal.model.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +105,7 @@ public class GPlayBilling  {
 
 
     public void init(BillingClientStateListener billingClientStateListener){
-
+        Log.d(TAG, "init: BillingClientStateListener");
         billingClient.startConnection(billingClientStateListener);
 /*
 
@@ -133,15 +135,17 @@ public class GPlayBilling  {
         Log.d(TAG, "getProducts: ");
         List<QueryProductDetailsParams.Product> itemsList = new ArrayList<>();
 
+
         QueryProductDetailsParams.Product qp = QueryProductDetailsParams.Product.newBuilder()
                 .setProductId("subs")
                 .setProductType(BillingClient.ProductType.SUBS)
                 .build();
+
         itemsList.add(qp);
 
         QueryProductDetailsParams queryProductDetailsParams =
                 QueryProductDetailsParams.newBuilder()
-                        .setProductList(itemsList)
+                        .setProductList(ImmutableList.from(itemsList))
                         .build();
 
         billingClient.queryProductDetailsAsync(

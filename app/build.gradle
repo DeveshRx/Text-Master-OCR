@@ -9,8 +9,8 @@ plugins {
 }
 
 
-def AppVersionCode = 7
-def AppVersionName = "1.0.0.7"
+def AppVersionCode = 8
+def AppVersionName = "1.0.0.8"
 
 android {
     compileSdk project.CompileSDK
@@ -80,6 +80,7 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
+         //   debuggable true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             firebaseAppDistribution {
@@ -197,7 +198,7 @@ dependencies {
 
   //  def billing_version = "5.2.0"
     def billing_version = "6.0.1"
-    implementation "com.android.billingclient:billing:$billing_version"
+    implementation "com.android.billingclient:billing:$project.billing_version"
     implementation "com.google.android.gms:play-services-base:$project.play_services_base"
 
     implementation 'com.google.android.ump:user-messaging-platform:2.1.0'

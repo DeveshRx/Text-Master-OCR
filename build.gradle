@@ -74,6 +74,7 @@ project.ext{
     gson_version="2.10.1"
     glide_version="4.14.0"
     play_services_base="18.2.0"
+    billing_version = "6.0.1"
 
     AdMobAppID=AdMob_App_ID
     AdMobAdBannerID1=AdMob_AdBannerID1

@@ -42,7 +42,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     def billing_version = "6.0.1"
-    api "com.android.billingclient:billing:$billing_version"
+    api "com.android.billingclient:billing:$project.billing_version"
     api "com.google.android.gms:play-services-base:$project.play_services_base"
 
 }
