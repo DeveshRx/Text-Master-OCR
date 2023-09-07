@@ -82,32 +82,56 @@ String TAG="BillAct";
         gPlayBilling.init(new BillingClientStateListener() {
             @Override
             public void onBillingServiceDisconnected() {
-
+                Log.d(TAG, "onBillingServiceDisconnected: ");
             }
 
             @Override
             public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
+                Log.d(TAG, "onBillingSetupFinished: getResponseCode() "+billingResult.getResponseCode());
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here.
-                    Log.d(TAG, "onBillingSetupFinished: ");
+                    Log.d(TAG, "onBillingSetupFinished: OK");
                     getProducts();
                     fetchOwnedPlans();
+                }else{
+                    Log.d(TAG, "onBillingSetupFinished: NOT OK");
+                    String errorMessage="Error";
+
+                    if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.BILLING_UNAVAILABLE){
+                        errorMessage="BILLING UNAVAILABLE";
+                    }else if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED){
+                        errorMessage="USER CANCELED";
+                    }else if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.ERROR){
+                        errorMessage="ERROR";
+                    }
+                    else if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.DEVELOPER_ERROR){
+                        errorMessage="DEVELOPER_ERROR";
+                    }
+                    Log.d(TAG, "onBillingSetupFinished: ERROR => "+errorMessage);
+
+                    Toast.makeText(BillingActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+
                 }
             }
+
+
+
         });
 
-        try {
+       /* try {
             getProducts();
         }catch (Exception e){
-
+            Log.e(TAG, "onStart: ",e );
         }
 
         try {
-            fetchOwnedPlans();
+           fetchOwnedPlans();
 
         }catch (Exception e){
-
+            Log.e(TAG, "onStart: ",e );
         }
+
+        */
         setUIDetails();
 
         // Check Google Play Services
@@ -132,6 +156,11 @@ String TAG="BillAct";
         gPlayBilling.getProducts(new ProductDetailsResponseListener() {
             @Override
             public void onProductDetailsResponse(@NonNull BillingResult billingResult, @NonNull List<ProductDetails> list) {
+
+            if(list.isEmpty()){
+                Log.d(TAG, "onProductDetailsResponse: EMPTY PRODUCTS ");
+               return;
+            }
                 Log.d(TAG, "onProductDetailsResponse: "+list.get(0).toString());
                 productDetails=list.get(0);
                 gPlayBilling.productDetails=productDetails;
@@ -139,8 +168,9 @@ String TAG="BillAct";
                 ProductDetails.SubscriptionOfferDetails s= productDetails.getSubscriptionOfferDetails().get(0);
                 price=s.getPricingPhases().getPricingPhaseList().get(0).getFormattedPrice();
                 period=s.getPricingPhases().getPricingPhaseList().get(0).getBillingPeriod();
-                    Log.d(TAG, "onProductDetailsResponse: SubscriptionOfferDetails "+s.toString());
-                    Log.d(TAG, "onProductDetailsResponse: getOfferTags "+s.getPricingPhases().getPricingPhaseList().get(0));
+
+                Log.d(TAG, "onProductDetailsResponse: SubscriptionOfferDetails "+s.toString());
+                Log.d(TAG, "onProductDetailsResponse: getOfferTags "+s.getPricingPhases().getPricingPhaseList().get(0));
 
                 setUIDetails();
 

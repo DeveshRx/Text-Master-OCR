@@ -9,8 +9,8 @@ plugins {
 }
 
 
-def AppVersionCode = 7
-def AppVersionName = "1.0.0.7"
+def AppVersionCode = 8
+def AppVersionName = "1.0.0.8"
 
 android {
     compileSdk project.CompileSDK
@@ -80,6 +80,7 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
+         //   debuggable true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             firebaseAppDistribution {
