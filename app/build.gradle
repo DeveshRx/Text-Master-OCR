@@ -9,8 +9,8 @@ plugins {
 }
 
 
-def AppVersionCode = 8
-def AppVersionName = "1.0.0.8"
+def AppVersionCode = 9
+def AppVersionName = "1.0.0.9"
 
 android {
     compileSdk project.CompileSDK

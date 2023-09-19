@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import devesh.app.common.AdMobAPI;
 import devesh.app.common.utils.AppReviewTask;
 import devesh.app.common.utils.CachePref;
+import devesh.app.common.utils.InstallSource;
 import devesh.app.database.DatabaseTool;
 import devesh.app.database.ScanFile;
 import devesh.app.ocr.databinding.ActivityResultBinding;
@@ -71,7 +72,13 @@ public class ResultActivity extends AppCompatActivity {
         binding.CopyButton.setOnClickListener(view -> {
             CopyText(text);
         });
-        adMobAPI.LoadInterstitialAd(this);
+
+        // Essential For Galaxy App Store Policy
+        if(!InstallSource.isGalaxyStore(this)){
+            adMobAPI.LoadInterstitialAd(this);
+        }
+
+
         adMobAPI.setAdaptiveBanner(binding.AdFrameLayout, this);
         appReviewTask = new AppReviewTask(this, this);
         appReviewTask.requestAppReview();
@@ -84,7 +91,10 @@ public class ResultActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
 
-            adMobAPI.ShowInterstitialAd();
+            if(!InstallSource.isGalaxyStore(this)) {
+                adMobAPI.ShowInterstitialAd();
+            }
+
             isAdShowed = true;
         }
 
