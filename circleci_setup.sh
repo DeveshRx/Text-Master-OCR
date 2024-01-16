@@ -1,6 +1,6 @@
 
 # Generate app.env file
-echo APP_ENV_FILE_BASE64  > app.env.b64
+echo $APP_ENV_FILE_BASE64  > app.env.b64
 base64 -d app.env.b64  >> app.env
 
 
