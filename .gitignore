@@ -68,3 +68,10 @@ Footer
 APK/apk/release/app-release.apk
 APK/apk/release/output-metadata.json
 *.aab
+
+*.b64
+
+app.env.cicd
+
+app.env.cicd.txt
+app.env.cicd.txt

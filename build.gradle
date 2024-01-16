@@ -2,7 +2,7 @@
 buildscript {
     dependencies {
         classpath 'com.google.gms:google-services:4.3.15'
-        classpath 'com.android.tools.build:gradle:8.1.1'
+        classpath 'com.android.tools.build:gradle:8.2.1'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
         classpath 'com.google.firebase:perf-plugin:1.4.2'
         classpath 'com.google.firebase:firebase-appdistribution-gradle:4.0.0'
@@ -20,8 +20,8 @@ buildscript {
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.application' version '8.1.1' apply false
-    id 'com.android.library' version '8.1.1' apply false
+    id 'com.android.application' version '8.2.1' apply false
+    id 'com.android.library' version '8.2.1' apply false
 }
 
 
@@ -47,7 +47,7 @@ def AdMob_AdRewardedID = properties.getProperty('AdMobRewardedAd')
 def AdMob_Native_Ad_ID=properties.getProperty('AdMobNativeAds')
 
 
-//debug_url_callnow = properties.getProperty('debug_url_callnow')
+
 project.ext.set("keySignFile", keySignFile)
 project.ext.set("keySignPassword", keySignPassword)
 project.ext.set("keySignAlias", keySignAlias)
