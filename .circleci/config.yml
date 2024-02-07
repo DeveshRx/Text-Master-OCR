@@ -1,25 +1,35 @@
 version: 2.1
 jobs:
-  build:
+  build_my_app:
     docker:
       - image: cimg/android:2023.12
-#        environment:
-#          APP_ENV_FILE_BASE64: APP_ENV_FILE_BASE64
-#          SIGN_KEY_BASE64: $SIGN_KEY_BASE64
 
     steps:
       - checkout
-      - run: chmod +x gradlew
-      - run: chmod +x circleci_setup.sh
-      - run:
-          name: Setting up project
-          command: ./circleci_setup.sh
 
-      - run: ./gradlew clean
-      - run: ./gradlew assemble bundle --stacktrace
+      # Project Environment Setup
+      - run: chmod +x project_setup.sh
+      - run:
+          name: Setting Up Project Environment
+          command: ./project_setup.sh
+
+      # Run Gradle Build
+      - run: chmod +x gradlew
+      - run:
+          name: Android Gradle Build
+          command: ./gradlew clean assemble bundle --stacktrace
 
       # Store Build Files
       - store_artifacts:
           path: app/build/outputs/apk
       - store_artifacts:
           path: app/build/outputs/bundle
+
+
+
+
+
+
+
+
+
