@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import devesh.app.common.AdMobAPI;
-import devesh.app.database.DatabaseTool;
-import devesh.app.database.ScanFile;
 import devesh.app.ocr.adapter.HistoryAdapter;
+import devesh.app.ocr.database.DatabaseTool;
+
+import devesh.app.ocr.database.ScanFile;
 import devesh.app.ocr.databinding.ActivityHistoryBinding;
 
 public class HistoryActivity extends AppCompatActivity {
@@ -24,7 +24,7 @@ public class HistoryActivity extends AppCompatActivity {
     ActivityHistoryBinding binding;
     DatabaseTool databaseTool;
     List<ScanFile> scanFileList = new ArrayList<>();
-    AdMobAPI adMobAPI;
+    devesh.app.ocr.AdMobAPI adMobAPI;
     boolean isAdShowed;
 
     @Override

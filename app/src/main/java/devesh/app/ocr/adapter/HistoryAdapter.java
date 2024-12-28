@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import devesh.app.database.ScanFile;
 import devesh.app.ocr.HistoryActivity;
 import devesh.app.ocr.R;
+import devesh.app.ocr.database.ScanFile;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
     String TAG = "HistoryAdapter";

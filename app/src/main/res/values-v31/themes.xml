@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.OCR" parent="Theme.Material3.Dark">
+
+            <!-- Primary brand color. -->
+            <item name="colorPrimary">@color/primaryColor</item>
+            <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
+            <item name="colorOnPrimary">@color/white</item>
+            <!-- Secondary brand color. -->
+            <item name="colorSecondary">@color/secondaryColor</item>
+            <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+            <item name="colorOnSecondary">@color/white</item>
+            <!-- Status bar color.-->
+            <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+            <!-- Customize your theme here. -->
+
+            <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+    </style>
+</resources>

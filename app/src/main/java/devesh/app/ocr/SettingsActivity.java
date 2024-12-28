@@ -10,11 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import devesh.app.billing.BillingActivity;
-import devesh.app.common.AdMobAPI;
-import devesh.app.common.utils.CachePref;
-import devesh.app.common.utils.InstallSource;
+
+import devesh.app.ocr.billing.BillingActivity;
 import devesh.app.ocr.databinding.SettingsActivityBinding;
+import devesh.app.ocr.utils.CachePref;
+import devesh.app.ocr.utils.InstallSource;
 
 public class SettingsActivity extends AppCompatActivity {
     SettingsActivityBinding binding;
@@ -118,9 +118,9 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             Preference BuyBTN = findPreference("buy");
-            isSubscribed = cachePref.getBoolean(getString(devesh.app.common.R.string.Pref_isSubscribed));
+            isSubscribed = cachePref.getBoolean(getString(R.string.Pref_isSubscribed));
             if (isSubscribed) {
-                BuyBTN.setIcon(devesh.app.common.R.drawable.ic_baseline_favorite_40);
+                BuyBTN.setIcon(R.drawable.ic_baseline_favorite_40);
                 BuyBTN.setSummary("Thank You for Subscribing");
             }
             BuyBTN.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -198,7 +198,7 @@ findPreference("MoreAppsCategory").setVisible(false);
                     .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         public boolean onPreferenceClick(Preference preference) {
                             Log.d(TAG, "onPreferenceClick: ");
-                            String url = getString(devesh.app.moreapps.R.string.MoreApps_SMS_Drive_url);
+                            String url = getString(R.string.MoreApps_SMS_Drive_url);
                             Uri uri = Uri.parse(url);
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             // Verify that the intent will resolve to an activity
@@ -212,7 +212,7 @@ findPreference("MoreAppsCategory").setVisible(false);
                     .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         public boolean onPreferenceClick(Preference preference) {
                             Log.d(TAG, "onPreferenceClick: ");
-                            String url = getString(devesh.app.moreapps.R.string.MoreApps_Indra_url);
+                            String url = getString(R.string.MoreApps_Indra_url);
                             Uri uri = Uri.parse(url);
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             // Verify that the intent will resolve to an activity
@@ -227,7 +227,7 @@ findPreference("MoreAppsCategory").setVisible(false);
                     .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         public boolean onPreferenceClick(Preference preference) {
                             Log.d(TAG, "onPreferenceClick: ");
-                            String url = getString(devesh.app.moreapps.R.string.MoreApps_PharmaHub_url);
+                            String url = getString(R.string.MoreApps_PharmaHub_url);
                             Uri uri = Uri.parse(url);
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             // Verify that the intent will resolve to an activity
@@ -241,7 +241,7 @@ findPreference("MoreAppsCategory").setVisible(false);
                     .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         public boolean onPreferenceClick(Preference preference) {
                             Log.d(TAG, "onPreferenceClick: ");
-                            String url = getString(devesh.app.moreapps.R.string.MoreApps_SHT_url);
+                            String url = getString(R.string.MoreApps_SHT_url);
                             Uri uri = Uri.parse(url);
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             // Verify that the intent will resolve to an activity
@@ -255,7 +255,7 @@ findPreference("MoreAppsCategory").setVisible(false);
                     .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         public boolean onPreferenceClick(Preference preference) {
                             Log.d(TAG, "onPreferenceClick: ");
-                            String url = getString(devesh.app.moreapps.R.string.MoreApps_Jinx_url);
+                            String url = getString(R.string.MoreApps_Jinx_url);
                             Uri uri = Uri.parse(url);
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             // Verify that the intent will resolve to an activity
@@ -269,7 +269,7 @@ findPreference("MoreAppsCategory").setVisible(false);
                     .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         public boolean onPreferenceClick(Preference preference) {
                             Log.d(TAG, "onPreferenceClick: ");
-                            String url = getString(devesh.app.moreapps.R.string.MoreApps_Muzilla_url);
+                            String url = getString(R.string.MoreApps_Muzilla_url);
                             Uri uri = Uri.parse(url);
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             // Verify that the intent will resolve to an activity
@@ -283,7 +283,7 @@ findPreference("MoreAppsCategory").setVisible(false);
                     .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         public boolean onPreferenceClick(Preference preference) {
                             Log.d(TAG, "onPreferenceClick: ");
-                            String url = getString(devesh.app.moreapps.R.string.MoreApps_QRLite_url);
+                            String url = getString(R.string.MoreApps_QRLite_url);
                             Uri uri = Uri.parse(url);
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             // Verify that the intent will resolve to an activity
@@ -297,7 +297,7 @@ findPreference("MoreAppsCategory").setVisible(false);
                     .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                         public boolean onPreferenceClick(Preference preference) {
                             Log.d(TAG, "onPreferenceClick: ");
-                            String url = getString(devesh.app.moreapps.R.string.MoreApps_VirtualLSD_url);
+                            String url = getString(R.string.MoreApps_VirtualLSD_url);
                             Uri uri = Uri.parse(url);
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             // Verify that the intent will resolve to an activity

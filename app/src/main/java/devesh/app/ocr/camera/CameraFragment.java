@@ -34,12 +34,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import devesh.app.common.AdMobAPI;
-import devesh.app.common.utils.CachePref;
-import devesh.app.mlkit_ocr.OCRTool;
+import devesh.app.ocr.AdMobAPI;
 import devesh.app.ocr.MainActivity;
 import devesh.app.ocr.R;
 import devesh.app.ocr.databinding.FragmentCameraBinding;
+import devesh.app.ocr.mlkit_ocr.OCRTool;
+import devesh.app.ocr.utils.CachePref;
 
 
 public class CameraFragment extends Fragment {
@@ -209,6 +209,7 @@ boolean isFlashAvailable;
             materialAlertDialogBuilder.show();
 
         });
+
 String d=cachePref.getString("ocrlang");
 if(d!=null){
 int i=Integer.parseInt(d);

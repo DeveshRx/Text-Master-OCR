@@ -34,7 +34,8 @@ it automatically recognize the characters from an image/camera and Scan Printed 
 
 1) Step Android Development Environment & Install Android Studio [https://developer.android.com/guide](https://developer.android.com/guide)
 
-2) Rename file `app.env.sample` to `app.env`, located in the project root directory. Open the file & Add your api keys in it.
+2) Rename file `local.properties.sample` to `local.properties`, located in the project root directory. Open the file & Add your api keys in it.
+if `local.properties` file is already exists, then add your own api keys into it 
 
 3) Download `google-services.json` file from Your [Firebase Console](https://console.firebase.google.com/). Learn More at [https://firebase.google.com/docs/android/setup](https://firebase.google.com/docs/android/setup)
 

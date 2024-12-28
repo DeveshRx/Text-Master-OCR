@@ -1,8 +1,0 @@
-theme: jekyll-theme-cayman
-show_downloads: true
-
-github:
-  zip_url: https://play.google.com/store/apps/details?id=devesh.app.ocr&referrer=utm_source%3Dwebsite%26utm_medium%3DTxWebsite%26utm_campaign%3Dapp%2Bdownload
-  tar_url: https://install.appcenter.ms/orgs/ephrine-apps/apps/text-master/distribution_groups/apk
-  is_project_page: true
-  url: https://textmaster.ephrine.in
