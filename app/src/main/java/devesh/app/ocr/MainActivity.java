@@ -19,13 +19,13 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.ImageProxy;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
 
+import com.android.billingclient.api.AcknowledgePurchaseParams;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
@@ -38,23 +38,13 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.File;
 import java.io.IOException;
 
-import devesh.app.billing.BillingActivity;
-import devesh.app.billing.GPlayBilling;
-import devesh.app.common.utils.CachePref;
-import devesh.app.database.DatabaseTool;
-import devesh.app.mlkit_ocr.OCRTool;
+import devesh.app.ocr.billing.BillingActivity;
+import devesh.app.ocr.billing.GPlayBilling;
 import devesh.app.ocr.camera.CameraFragment;
+import devesh.app.ocr.database.DatabaseTool;
 import devesh.app.ocr.databinding.ActivityMainBinding;
-
-
-import com.google.android.ump.ConsentDebugSettings;
-import com.google.android.ump.ConsentForm;
-import com.google.android.ump.ConsentInformation;
-import com.google.android.ump.ConsentRequestParameters;
-import com.google.android.ump.FormError;
-import com.google.android.ump.UserMessagingPlatform;
-
-import java.util.concurrent.atomic.AtomicBoolean;
+import devesh.app.ocr.mlkit_ocr.OCRTool;
+import devesh.app.ocr.utils.CachePref;
 
 
 public class MainActivity extends BaseActivity {
@@ -139,49 +129,49 @@ public class MainActivity extends BaseActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         fragmentManager = getSupportFragmentManager();
-        isBuyProBanner=false;
+        isBuyProBanner = false;
         databaseTool = new DatabaseTool(this);
         gPlayBilling = new GPlayBilling(this, (billingResult, list) -> {
 
         });
 
-        String d=cachePref.getString("ocrlang");
-        if(d!=null){
-            int i=Integer.parseInt(d);
-            int m=OCRTool.LANGUAGE_DEFAULT;
+        String d = cachePref.getString("ocrlang");
+        if (d != null) {
+            int i = Integer.parseInt(d);
+            int m = OCRTool.LANGUAGE_DEFAULT;
             switch (i) {
                 case 0:
-                    m=OCRTool.LANGUAGE_DEFAULT;
+                    m = OCRTool.LANGUAGE_DEFAULT;
                     break;
                 case 1:
-                    m=OCRTool.LANGUAGE_Devanagari;
+                    m = OCRTool.LANGUAGE_Devanagari;
 
                     break;
                 case 2:
-                    m= OCRTool.LANGUAGE_Japanese;
+                    m = OCRTool.LANGUAGE_Japanese;
 
                     break;
                 case 3:
-                    m= OCRTool.LANGUAGE_Korean;
+                    m = OCRTool.LANGUAGE_Korean;
 
                 case 4:
-                    m= OCRTool.LANGUAGE_Chinese;
+                    m = OCRTool.LANGUAGE_Chinese;
 
                     break;
             }
 
             ocrTool = new OCRTool(m);
-        }else{
+        } else {
             ocrTool = new OCRTool(OCRTool.LANGUAGE_DEFAULT);
 
         }
         ReceiveShareIntent();
 
-        if(savedInstanceState==null){
-            setFragment(new CameraFragment(),null,"camera");
+        if (savedInstanceState == null) {
+            setFragment(new CameraFragment(), null, "camera");
         }
 
-         //  setSupportActionBar(binding.toolbar);
+        //  setSupportActionBar(binding.toolbar);
 
 /*
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -198,7 +188,7 @@ public class MainActivity extends BaseActivity {
         });*/
 
 
-       RequestPermission();
+        RequestPermission();
 
         Log.d(TAG, "onCreate:Database");
         Log.d(TAG, databaseTool.getAll().toString());
@@ -207,7 +197,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-      //  fragmentScreen.onDestroy();
+        //  fragmentScreen.onDestroy();
     }
 
 
@@ -218,17 +208,17 @@ public class MainActivity extends BaseActivity {
                 if (fragmentManager.findFragmentByTag("camera").isVisible()) {
                     //fragmentScreen = fragmentManager.findFragmentByTag("camera");
 
-                    if(!isSubscribed){
-                        if( !isBuyProBanner){
+                    if (!isSubscribed) {
+                        if (!isBuyProBanner) {
                             binding.BuyProBanner.getRoot().setVisibility(View.VISIBLE);
-                            isBuyProBanner=true;
-                        }else{
-                            isBuyProBanner=false;
+                            isBuyProBanner = true;
+                        } else {
+                            isBuyProBanner = false;
                             binding.BuyProBanner.getRoot().setVisibility(View.GONE);
                         }
 
 
-                    }else{
+                    } else {
                         super.onBackPressed();
                     }
 
@@ -238,8 +228,7 @@ public class MainActivity extends BaseActivity {
         }
 
 
-
-    //    super.onBackPressed();
+        //    super.onBackPressed();
     }
 
     @Override
@@ -253,7 +242,7 @@ public class MainActivity extends BaseActivity {
             startActivity(intent);
         });
         binding.BuyProBanner.getRoot().setVisibility(View.GONE);
-        isBuyProBanner=false;
+        isBuyProBanner = false;
 
         gPlayBilling.init(new BillingClientStateListener() {
             @Override
@@ -264,8 +253,8 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
                 gPlayBilling.fetchPayments((billingResult1, list) -> {
-                    Log.d(TAG, "onBillingSetupFinished: "+list.toString());
-                    if(list.isEmpty()){
+                    Log.d(TAG, "onBillingSetupFinished: " + list);
+                    if (list.isEmpty()) {
                         isSubscribed = false;
                     }
 
@@ -287,8 +276,23 @@ public class MainActivity extends BaseActivity {
                             Log.d(TAG, "fetchOwnedPlans: UNSPECIFIED_STATE unknown");
                         }
 
+                        if (!p.isAcknowledged()) {
+                            AcknowledgePurchaseParams acknowledgePurchaseParams =
+                                    AcknowledgePurchaseParams.newBuilder()
+                                            .setPurchaseToken(p.getPurchaseToken())
+                                            .build();
+                            gPlayBilling.billingClient.acknowledgePurchase(acknowledgePurchaseParams, response -> {
+                                Log.d(TAG, "onAcknowledgePurchaseResponse: " + response);
+                                if (response.getResponseCode() == RESULT_OK) {
+                                    isSubscribed = true;
+                                    Log.d(TAG, "onBillingSetupFinished: RESULT OK");
+                                }
+                            });
+
+                        }
+
                     }
-                    cachePref.setBoolean(getString(devesh.app.common.R.string.Pref_isSubscribed), isSubscribed);
+                    cachePref.setBoolean(getString(R.string.Pref_isSubscribed), isSubscribed);
                     PremiumUserUI();
 
                 });
@@ -309,7 +313,7 @@ public class MainActivity extends BaseActivity {
             if (type.startsWith("image/")) {
 
 
-                Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
                     // Update UI to reflect image being shared
                     //   ShowLoader(true);
@@ -514,15 +518,15 @@ binding.ResultView.editTextScanResult.setText(text);
 
     }
 
-    void PremiumUserUI(){
+    void PremiumUserUI() {
         runOnUiThread(() -> {
 
-            isSubscribed=cachePref.getBoolean(getString(devesh.app.common.R.string.Pref_isSubscribed));
-            if(isSubscribed){
-binding.PremiumUserLL.setVisibility(View.VISIBLE);
-binding.JoinProLL.setVisibility(View.GONE);
+            isSubscribed = cachePref.getBoolean(getString(R.string.Pref_isSubscribed));
+            if (isSubscribed) {
+                binding.PremiumUserLL.setVisibility(View.VISIBLE);
+                binding.JoinProLL.setVisibility(View.GONE);
 
-            }else{
+            } else {
                 binding.PremiumUserLL.setVisibility(View.GONE);
                 binding.JoinProLL.setVisibility(View.VISIBLE);
 
@@ -532,8 +536,6 @@ binding.JoinProLL.setVisibility(View.GONE);
 
                 });
             }
-
-
 
 
         });
@@ -557,8 +559,8 @@ binding.JoinProLL.setVisibility(View.GONE);
                     .hide(oldFrag)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(binding.fragmentContainerFrame.getId(), fragmentScreen, tag)
-                   // .setReorderingAllowed(true)
-                   // .addToBackStack("app")
+                    // .setReorderingAllowed(true)
+                    // .addToBackStack("app")
                     .commit();
 
         } else {
@@ -566,8 +568,8 @@ binding.JoinProLL.setVisibility(View.GONE);
             fragmentManager.beginTransaction()
                     //  .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(binding.fragmentContainerFrame.getId(), fragmentScreen, tag)
-                   // .setReorderingAllowed(true)
-                   // .addToBackStack("app")
+                    // .setReorderingAllowed(true)
+                    // .addToBackStack("app")
                     .commit();
 
         }

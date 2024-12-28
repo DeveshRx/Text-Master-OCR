@@ -16,16 +16,18 @@ def PUBLISH_VERSION = '2.8.0'
 
 android {
 
-    compileSdkVersion project.CompileSDK
+    compileSdkVersion 35
 //    buildToolsVersion buildToolsVersion
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion project.CompileSDK
+        targetSdkVersion 35
+        multiDexEnabled true
+      //  proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
     }
     buildTypes {
         release {
-            minifyEnabled true
-        //    proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //minifyEnabled true
         }
         internal {
             //   initWith debug
@@ -35,8 +37,11 @@ android {
 
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        // sourceCompatibility JavaVersion.VERSION_1_7
+        // targetCompatibility JavaVersion.VERSION_1_7
+
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     namespace 'com.theartofdev.edmodo.cropper'
     lint {
@@ -64,10 +69,12 @@ android {
 //apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
 
 dependencies {
-    api "androidx.appcompat:appcompat:$project.appcompat_version"
-    implementation "androidx.exifinterface:exifinterface:1.3.3"
-    api "com.google.android.material:material:$project.material_version"
-    api "androidx.constraintlayout:constraintlayout:$project.constraintlayout_version"
+    api "androidx.appcompat:appcompat:+"
+    //implementation "androidx.exifinterface:exifinterface:1.3.3"
+    implementation "androidx.exifinterface:exifinterface:1.3.7"
+    api "com.google.android.material:material:+"
+    api "androidx.constraintlayout:constraintlayout:+"
+    api "com.android.support:multidex:1.0.3"
 
 }
 

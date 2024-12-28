@@ -5,7 +5,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    >
 
         <androidx.camera.view.PreviewView
             android:id="@+id/viewFinder"
@@ -43,6 +45,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:contentDescription="image Capture Button"
                 android:src="@drawable/ic_baseline_camera_24"
                 app:fabCustomSize="70dp"
                 app:maxImageSize="50dp" />
@@ -126,6 +129,7 @@
                     android:layout_marginBottom="13dp"
                     android:layout_weight="0"
                     android:clickable="true"
+                    android:contentDescription="Gallery Button"
                     android:cropToPadding="false"
                     android:src="@drawable/ic_baseline_photo_library_24"
                     app:icon="@drawable/ic_baseline_photo_library_24"
@@ -143,6 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:clickable="true"
+                    android:contentDescription="History Button"
                     android:src="@drawable/ic_baseline_history_24"
                     app:useCompatPadding="true" />
 
@@ -157,6 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:clickable="true"
+                    android:contentDescription="Settings Button"
                     android:src="@drawable/ic_baseline_settings_50"
                     app:useCompatPadding="true" />
 

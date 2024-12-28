@@ -9,12 +9,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import devesh.app.common.AdMobAPI;
-import devesh.app.common.utils.AppReviewTask;
-import devesh.app.common.utils.CachePref;
-import devesh.app.database.DatabaseTool;
-import devesh.app.database.ScanFile;
+
+import devesh.app.ocr.database.DatabaseTool;
+import devesh.app.ocr.database.ScanFile;
 import devesh.app.ocr.databinding.ActivityResultBinding;
+import devesh.app.ocr.utils.AppReviewTask;
+import devesh.app.ocr.utils.CachePref;
+import devesh.app.ocr.utils.InstallSource;
 
 public class ResultActivity extends AppCompatActivity {
     String TAG = "ResultAct:";
@@ -37,7 +38,7 @@ public class ResultActivity extends AppCompatActivity {
         isAdShowed = false;
 
         text = intent.getStringExtra("text");
-        boolean isSingleLine = cachePref.getBoolean(getString(devesh.app.common.R.string.Pref_isMultiline));
+        boolean isSingleLine = cachePref.getBoolean(getString(R.string.Pref_isMultiline));
         Log.d(TAG, "onCreate: isSingleLine: " + isSingleLine);
         String Add2DB = "yes";
         try {
@@ -71,7 +72,13 @@ public class ResultActivity extends AppCompatActivity {
         binding.CopyButton.setOnClickListener(view -> {
             CopyText(text);
         });
-        adMobAPI.LoadInterstitialAd(this);
+
+        // Essential For Galaxy App Store Policy
+        if(!InstallSource.isGalaxyStore(this)){
+            adMobAPI.LoadInterstitialAd(this);
+        }
+
+
         adMobAPI.setAdaptiveBanner(binding.AdFrameLayout, this);
         appReviewTask = new AppReviewTask(this, this);
         appReviewTask.requestAppReview();
@@ -84,7 +91,10 @@ public class ResultActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
 
-            adMobAPI.ShowInterstitialAd();
+            if(!InstallSource.isGalaxyStore(this)) {
+                adMobAPI.ShowInterstitialAd();
+            }
+
             isAdShowed = true;
         }
 

@@ -14,7 +14,6 @@ it automatically recognize the characters from an image/camera and Scan Printed 
 
 ## Download 
 [![download](https://deveshrx.github.io/Text-Master-OCR/pics/google-play-badge.png)](https://play.google.com/store/apps/details?id=devesh.app.ocr)
-[![download](https://deveshrx.github.io/Text-Master-OCR/pics/galaxy_store.png)](https://galaxy.store/tmocr)
 [![download](https://deveshrx.github.io/Text-Master-OCR/pics/amazon_app_store.png)](https://www.amazon.com/gp/product/B0BB3BJ75K)
 
 
@@ -34,7 +33,8 @@ it automatically recognize the characters from an image/camera and Scan Printed 
 
 1) Step Android Development Environment & Install Android Studio [https://developer.android.com/guide](https://developer.android.com/guide)
 
-2) Rename file `app.env.sample` to `app.env`, located in the project root directory. Open the file & Add your api keys in it.
+2) Rename file `local.properties.sample` to `local.properties`, located in the project root directory. Open the file & Add your api keys in it.
+if `local.properties` file is already exists, then add your own api keys into it 
 
 3) Download `google-services.json` file from Your [Firebase Console](https://console.firebase.google.com/). Learn More at [https://firebase.google.com/docs/android/setup](https://firebase.google.com/docs/android/setup)
 

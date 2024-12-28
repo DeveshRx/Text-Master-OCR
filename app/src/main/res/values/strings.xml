@@ -2,4 +2,55 @@
     <string name="app_name" translatable="false">Text Master OCR</string>
     <string name="PLAY_STORE_URL" translatable="false">https://play.google.com/store/apps/details?id=devesh.app.ocr</string>
     <string name="GALAXY_STORE_URL" translatable="false">https://galaxystore.samsung.com/detail/devesh.app.ocr</string>
+
+
+
+    <string name="Pref_isAppReviewed">PrefisAppReviewed</string>
+    <string name="Pref_isMultiline">onelinetext</string>
+    <string name="Pref_isSubscribed">issub</string>
+
+
+
+    <!--SMS Drive-->
+    <string name="MoreApps_SMS_Drive">SMS Drive</string>
+    <string name="MoreApps_SMS_Drive_desc">Backup solution to sync your SMS messages across devices</string>
+    <string name="MoreApps_SMS_Drive_url">https://play.google.com/store/apps/details?id=devesh.ephrine.backup.sms</string>
+
+    <!--Indra-->
+    <string name="MoreApps_Indra">Indra Private Video Chat</string>
+    <string name="MoreApps_Indra_desc">Private Conversations with your Friends &amp; Family.</string>
+    <string name="MoreApps_Indra_url">https://play.google.com/store/apps/details?id=devesh.ephrine.indra</string>
+
+    <!--Pharma Hub-->
+    <string name="MoreApps_PharmaHub">Pharma Hub for Students</string>
+    <string name="MoreApps_PharmaHub_desc">EdTech Platform for Pharmacy &amp; Medical Study</string>
+    <string name="MoreApps_PharmaHub_url">https://play.google.com/store/apps/details?id=devesh.b.pharm.guide.mu</string>
+
+    <!--Jinx-->
+    <string name="MoreApps_Jinx">Jinx</string>
+    <string name="MoreApps_Jinx_desc">Self Diagnosis tool for Depression</string>
+    <string name="MoreApps_Jinx_url">https://play.google.com/store/apps/details?id=devesh.ephrine.depression.self.diagnosis</string>
+
+    <!--Muzilla-->
+    <string name="MoreApps_Muzilla">Muzilla Simple Music Player</string>
+    <string name="MoreApps_Muzilla_desc">Simple Music Player for Love of Music</string>
+    <string name="MoreApps_Muzilla_url">https://play.google.com/store/apps/details?id=devesh.app.music</string>
+
+
+
+    <!--qrlite-->
+    <string name="MoreApps_QRLite">QR Lite</string>
+    <string name="MoreApps_QRLite_desc">Lightweight QR Code Generator &amp; Scanner</string>
+    <string name="MoreApps_QRLite_url">https://play.google.com/store/apps/details?id=devesh.ephrine.qr.code</string>
+
+    <!--selfhypno-->
+    <string name="MoreApps_SHT">Self Hypnosis Therapy</string>
+    <string name="MoreApps_SHT_desc">Teach you basic technique of self hypnosis</string>
+    <string name="MoreApps_SHT_url">https://play.google.com/store/apps/details?id=devesh.ephrine.selfhypnosis</string>
+
+    <!--Virtual LSD-->
+    <string name="MoreApps_VirtualLSD">Virtual LSD Drug</string>
+    <string name="MoreApps_VirtualLSD_desc">Safest way to experience Hallucination effect like LSD by complex optical illusions</string>
+    <string name="MoreApps_VirtualLSD_url">https://play.google.com/store/apps/details?id=devesh.ephrine.virtuallsd</string>
+
 </resources>

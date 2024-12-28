@@ -18,8 +18,9 @@
             android:key="@string/Pref_isMultiline"
             android:title="Single Line Text"
             app:summary="After scan, convert multiline text paragraph into single line" />
+
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="0"
             android:entries="@array/ocr_language"
             android:entryValues="@array/ocr_language_values"
             android:key="ocrlang"
