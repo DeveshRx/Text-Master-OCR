@@ -14,7 +14,6 @@ it automatically recognize the characters from an image/camera and Scan Printed 
 
 ## Download 
 [![download](https://deveshrx.github.io/Text-Master-OCR/pics/google-play-badge.png)](https://play.google.com/store/apps/details?id=devesh.app.ocr)
-[![download](https://deveshrx.github.io/Text-Master-OCR/pics/galaxy_store.png)](https://galaxy.store/tmocr)
 [![download](https://deveshrx.github.io/Text-Master-OCR/pics/amazon_app_store.png)](https://www.amazon.com/gp/product/B0BB3BJ75K)
 
 
