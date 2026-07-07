@@ -13,7 +13,6 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import devesh.app.ocr.billing.BillingActivity;
 import devesh.app.ocr.databinding.SettingsActivityBinding;
-import devesh.app.ocr.fragments.SettingsFragmentsV1;
 import devesh.app.ocr.utils.CachePref;
 import devesh.app.ocr.utils.InstallSource;
 
@@ -30,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(binding.settings.getId(), new SettingsFragmentsV1())
+                    .replace(binding.settings.getId(), new SettingsFragment())
                     .commit();
 
 

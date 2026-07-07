@@ -54,9 +54,7 @@
          app:title="How to Use ?" />
  -->
 
-    <PreferenceCategory android:key="MoreAppsCategory" android:title="Devesh Rx Apps &amp; Games">
-
-
+    <PreferenceCategory android:key="MoreAppsCategory" android:title="Ephrine Apps Metaverse">
      <Preference
             app:icon="@drawable/qrlite_ic_launcher_web"
             app:key="qrlite"

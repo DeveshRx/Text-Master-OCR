@@ -4,7 +4,7 @@ import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
     // Add the Crashlytics Gradle plugin
     id("com.google.firebase.crashlytics")
@@ -13,8 +13,8 @@ plugins {
     id("com.google.firebase.appdistribution")
 }
 
-val AppVersionCode = 10
-val AppVersionName = "1.0.1.0"
+val AppVersionCode = 9
+val AppVersionName = "1.0.0.9"
 
 val keySignFile= gradleLocalProperties(rootDir, providers)
     .getProperty("keySignFile", "")
@@ -59,12 +59,12 @@ android {
         }
     }
     namespace = "devesh.app.ocr"
-    compileSdk = 37 // 35
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "devesh.app.ocr"
-        minSdk = 23 //21 23 24
-        targetSdk = 37
+        minSdk = 21 //24
+        targetSdk = 35
         versionCode = AppVersionCode
         versionName = AppVersionName
 
@@ -101,7 +101,7 @@ android {
             resValue ("string", "MS_AppCenter_Key", "\"" + "xxxx" + "\"")
 
         }
-        /*create("internal") {
+        create("internal") {
 
             resValue("string", "app_version_name", "\"" + AppVersionName + " Internal" + "\"")
 
@@ -123,18 +123,17 @@ android {
 
             signingConfig = signingConfigs.getByName("release")
 
-            /*firebaseAppDistribution {
+            firebaseAppDistribution {
                 releaseNotes = "Version: $AppVersionName (internal)\nBuild no: $AppVersionCode"
                 groups = "testers"
-            }*/
+            }
 
 
-        }*/
+        }
 
 
         release {
             isMinifyEnabled = true
-            isShrinkResources = true
 
             resValue("string", "app_version_name", "\"" + AppVersionName + "\"")
 
@@ -152,39 +151,27 @@ android {
             resValue ("string", "MS_AppCenter_Key", "\"" + "xxxx" + "\"")
             signingConfig = signingConfigs.getByName("release")
 
-            /*firebaseAppDistribution {
+            firebaseAppDistribution {
                 releaseNotes = "PlayStore \nVersion: $AppVersionName \nBuild no: $AppVersionCode"
                 groups = "testers"
-            }*/
+            }
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    /*kotlinOptions {
+    kotlinOptions {
         jvmTarget = "11"
-    }*/
+    }
     buildFeatures {
         viewBinding = true
-        compose = true
         buildConfig = true
-        resValues = true
+
     }
 }
 
 dependencies {
-
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.compose.material.icons.extended)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -16,11 +16,11 @@ def PUBLISH_VERSION = '2.8.0'
 
 android {
 
-    compileSdkVersion 37
+    compileSdkVersion 35
 //    buildToolsVersion buildToolsVersion
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 37
+        targetSdkVersion 35
         multiDexEnabled true
       //  proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
