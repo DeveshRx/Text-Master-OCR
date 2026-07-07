@@ -1,0 +1,117 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        app:icon="@mipmap/ic_launcher_round"
+        app:summary="Made with &#10084; in India"
+        app:title="@string/app_name" />
+    <PreferenceCategory app:title="Settings">
+
+        <Preference
+            android:key="buy"
+            android:title="Premium Plan"
+            app:icon="@drawable/ic_baseline_diamond_40"
+            app:summary="Get Ad-Free Experience "
+
+            />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/Pref_isMultiline"
+            android:title="Single Line Text"
+            app:summary="After scan, convert multiline text paragraph into single line" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/ocr_language"
+            android:entryValues="@array/ocr_language_values"
+            android:key="ocrlang"
+            android:title="OCR Language" />
+
+    </PreferenceCategory>
+    <PreferenceCategory app:title="About">
+        <Preference
+            app:key="ratekey"
+            app:title="Rate App 5 Stars" />
+
+        <Preference
+            app:key="sharekey"
+            app:title="Share with Friends" />
+        <Preference
+            app:summary="@string/app_version_name"
+            app:title="Version" />
+
+        <Preference
+            app:summary="@string/app_version_code"
+            app:title="Build Number" />
+        <Preference
+            android:key="appupdate"
+            app:title="Check for Update" />
+
+    </PreferenceCategory>
+
+    <!-- <Preference
+         app:key="guide"
+         app:summary="Tutorial &amp; User Guide"
+         app:title="How to Use ?" />
+ -->
+
+    <PreferenceCategory android:key="MoreAppsCategory" android:title="Devesh Rx Apps &amp; Games">
+
+
+     <Preference
+            app:icon="@drawable/qrlite_ic_launcher_web"
+            app:key="qrlite"
+            app:summary="@string/MoreApps_QRLite_desc"
+            app:title="@string/MoreApps_QRLite" />
+
+        <Preference
+            app:icon="@drawable/smsdrive_ic_launcher_web"
+            app:key="smsdrive"
+            app:summary="@string/MoreApps_SMS_Drive_desc"
+            app:title="@string/MoreApps_SMS_Drive" />
+
+        <Preference
+            app:icon="@drawable/indra_ic_launcher_playstore"
+            app:key="indra"
+            app:summary="@string/MoreApps_Indra_desc"
+            app:title="@string/MoreApps_Indra" />
+
+        <Preference
+            app:icon="@drawable/pharmahub_ic_launcher_playstore"
+            app:key="pharmahub"
+            app:summary="@string/MoreApps_PharmaHub_desc"
+            app:title="@string/MoreApps_PharmaHub" />
+
+        <Preference
+            app:icon="@drawable/jinx_icon"
+            app:key="jinx"
+            app:summary="@string/MoreApps_Jinx_desc"
+            app:title="@string/MoreApps_Jinx" />
+
+        <Preference
+            app:icon="@drawable/muzilla_ic_launcher_playstore"
+            app:key="muzilla"
+            app:summary="@string/MoreApps_Muzilla_desc"
+            app:title="@string/MoreApps_Muzilla" />
+       
+        <Preference
+            app:icon="@drawable/sht_ic_launcher"
+            app:key="sht"
+            app:summary="@string/MoreApps_SHT_desc"
+            app:title="@string/MoreApps_SHT" />
+
+
+        <Preference
+            app:icon="@drawable/virtuallsd_ic_launcher_playstore"
+            app:key="vlsd"
+            app:summary="@string/MoreApps_VirtualLSD_desc"
+            app:title="@string/MoreApps_VirtualLSD" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="More">
+        <Preference
+            app:key="secpri"
+            app:title="Privacy Policy" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
