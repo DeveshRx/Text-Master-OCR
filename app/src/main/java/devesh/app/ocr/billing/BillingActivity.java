@@ -15,6 +15,7 @@ import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.ProductDetailsResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.QueryProductDetailsResult;
 
 import java.util.List;
 
@@ -157,8 +158,8 @@ String TAG="BillAct";
     void getProducts(){
         gPlayBilling.getProducts(new ProductDetailsResponseListener() {
             @Override
-            public void onProductDetailsResponse(@NonNull BillingResult billingResult, @NonNull List<ProductDetails> list) {
-
+            public void onProductDetailsResponse(@NonNull BillingResult billingResult, @NonNull QueryProductDetailsResult queryProductDetailsResult) {
+            List<ProductDetails> list = queryProductDetailsResult.getProductDetailsList();
             if(list.isEmpty()){
                 Log.d(TAG, "onProductDetailsResponse: EMPTY PRODUCTS ");
                return;

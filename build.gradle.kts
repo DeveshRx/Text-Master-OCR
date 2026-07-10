@@ -4,9 +4,10 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.google.gms.google.services) apply false
 
-    id("com.google.firebase.crashlytics") version "3.0.2" apply false
+    id("com.google.firebase.crashlytics") version "3.0.7" apply false
 // Add the dependency for the App Distribution Gradle plugin
-    id("com.google.firebase.appdistribution") version "5.0.0" apply false
+    id("com.google.firebase.appdistribution") version "5.3.0" apply false
+    alias(libs.plugins.kotlin.compose) apply false
 }
 
 

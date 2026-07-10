@@ -96,10 +96,10 @@
             android:name="google_analytics_ssaid_collection_enabled"
             android:value="@bool/FirebaseAnalytics_Enabled" />
 
-        <property
+        <!--<property
             android:name="android.adservices.AD_SERVICES_CONFIG"
             android:resource="@xml/gma_ad_services_config"
-            tools:replace="android:resource" />
+            tools:replace="android:resource" />-->
     </application>
 
 </manifest>

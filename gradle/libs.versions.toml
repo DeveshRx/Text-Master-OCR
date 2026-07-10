@@ -1,37 +1,39 @@
 [versions]
-agp = "8.7.3"
+agp = "9.2.1"
 # billing = "6.0.1"
 appUpdate = "2.1.0"
-billing = "7.1.1"
-cameraCore = "1.4.1"
-compiler = "5.0.0-rc01"
-constraintlayout = "2.2.0"
-core = "1.10.3"
-firebaseBom = "33.7.0"
-glide = "5.0.0-rc01"
-gson = "2.11.0"
-kotlin = "1.9.24"
-coreKtx = "1.15.0"
+billing = "9.1.0"
+cameraCore = "1.6.1"
+compiler = "5.0.7"
+constraintlayout = "2.2.1"
+firebaseBom = "34.15.0"
+glide = "5.0.7"
+gson = "2.14.0"
+kotlin = "2.4.0"
+coreKtx = "1.19.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-appcompat = "1.7.0"
-material = "1.12.0"
-googleGmsGoogleServices = "4.4.2"
-firebaseAnalytics = "22.1.2"
+appcompat = "1.7.1"
+material = "1.14.0"
+googleGmsGoogleServices = "4.5.0"
+firebaseAnalytics = "23.2.0"
 multidex = "1.0.3"
-navigationFragmentKtx = "2.8.5"
-playServicesAds = "23.6.0"
-playServicesBase = "18.5.0"
+navigationFragmentKtx = "2.9.8"
+playServicesAds = "25.4.0"
+playServicesBase = "18.10.0"
 preferenceKtx = "1.2.1"
 reviewKtx = "2.0.2"
-roomRuntime = "2.6.1"
+roomRuntime = "2.8.4"
 textRecognition = "16.0.1"
 textRecognitionChinese = "16.0.1"
 textRecognitionDevanagari = "16.0.1"
 textRecognitionJapanese = "16.0.1"
 textRecognitionKorean = "16.0.1"
-userMessagingPlatform = "3.1.0"
+userMessagingPlatform = "4.0.0"
+lifecycleRuntimeKtx = "2.11.0"
+activityCompose = "1.13.0"
+composeBom = "2026.06.01"
 
 [libraries]
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCore" }
@@ -50,7 +52,6 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdate" }
 billing = { module = "com.android.billingclient:billing", version.ref = "billing" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
-core = { module = "com.google.android.play:core", version.ref = "core" }
 firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-config = { module = "com.google.firebase:firebase-config" }
@@ -75,9 +76,23 @@ text-recognition-devanagari = { module = "com.google.mlkit:text-recognition-deva
 text-recognition-japanese = { module = "com.google.mlkit:text-recognition-japanese", version.ref = "textRecognitionJapanese" }
 text-recognition-korean = { module = "com.google.mlkit:text-recognition-korean", version.ref = "textRecognitionKorean" }
 user-messaging-platform = { module = "com.google.android.ump:user-messaging-platform", version.ref = "userMessagingPlatform" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version = "2.8.5" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
